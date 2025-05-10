@@ -4,39 +4,61 @@ import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import com.educonnect.R
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.paint
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+
+import com.educonnect.R
 import com.educonnect.di.Injection
 import com.educonnect.ui.theme.OnPrimaryOpacity
 import com.educonnect.ui.theme.Primary
 import com.educonnect.ui.theme.Secondary
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import androidx.compose.runtime.collectAsState
 
 @Composable
-fun LoginScreen(
+fun TabletLoginLayout(
     context: Context,
-    authViewModel: AuthViewModel = Injection.provideAuthViewModel(context),
     onLoginSuccess: (String) -> Unit,
-    modifier: Modifier = Modifier
+    authViewModel: AuthViewModel = Injection.provideAuthViewModel(context)
 ) {
     val email by authViewModel.email.collectAsState()
     val password by authViewModel.password.collectAsState()
+
     val loginStatus by authViewModel.loginStatus.collectAsState()
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -47,34 +69,31 @@ fun LoginScreen(
     var passwordVisible by remember { mutableStateOf(false) }
 
     Box(
-        modifier
+        modifier = Modifier
             .fillMaxSize()
-            .paint(
-                painterResource(R.drawable.app_background),
-                contentScale = ContentScale.Crop
-            )
+            .padding(horizontal = 64.dp),
+        contentAlignment = Alignment.Center
     ) {
-        Column(
+        Row(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 32.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+                .width(600.dp)
+                .clip(RoundedCornerShape(32.dp))
+                .background(OnPrimaryOpacity.copy(alpha = 0.2f))
+                .padding(32.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
+            // Image à gauche
             Image(
                 painter = painterResource(R.drawable.logoapp),
                 contentDescription = null,
-                modifier = Modifier.size(150.dp)
+                modifier = Modifier
+                    .size(160.dp)
+                    .padding(end = 24.dp)
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
-
+            // Formulaire à droite
             Column(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(24.dp))
-                    .background(OnPrimaryOpacity.copy(alpha = 0.2F))
-                    .fillMaxWidth(0.9f)
-                    .padding(24.dp),
+                modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
@@ -83,14 +102,14 @@ fun LoginScreen(
                     color = Secondary,
                     fontWeight = FontWeight.Bold
                 )
-
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(24.dp))
 
                 UnderlinedTextField(
                     value = emailInput,
                     onValueChange = { emailInput = it },
                     label = "Email",
-                    leadingIcon = Icons.Default.Email
+                    leadingIcon = Icons.Default.Email,
+                    modifier = Modifier.fillMaxWidth()
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -102,10 +121,11 @@ fun LoginScreen(
                     leadingIcon = Icons.Default.Lock,
                     isPassword = true,
                     passwordVisible = passwordVisible,
-                    onVisibilityToggle = { passwordVisible = !passwordVisible }
+                    onVisibilityToggle = { passwordVisible = !passwordVisible },
+                    modifier = Modifier.fillMaxWidth()
                 )
 
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(24.dp))
 
                 Button(
                     onClick = {
@@ -121,25 +141,21 @@ fun LoginScreen(
                 }
             }
         }
-
         SnackbarHost(
             hostState = snackbarHostState,
             modifier = Modifier.align(Alignment.BottomCenter)
         )
     }
 
-    // Observer `userRole` pour redirection
     LaunchedEffect(authViewModel.userRole) {
-        Log.d("LoginScreen", "LaunchedEffect triggered")
         authViewModel.userRole.collect { role ->
-            Log.d("LoginScreen", "User Role observed in collect: $role")
+            Log.d("TabletLoginLayout", "User Role observed: $role")
             role?.let {
-                Log.d("LoginScreen", "Redirecting to: $it")
+                Log.d("TabletLoginLayout", "Redirecting to: $it")
                 onLoginSuccess(it)
             }
         }
     }
-
 
     loginStatus?.let { status ->
         coroutineScope.launch {
@@ -150,4 +166,5 @@ fun LoginScreen(
             )
         }
     }
+
 }

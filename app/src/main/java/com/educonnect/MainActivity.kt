@@ -11,6 +11,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
+import com.educonnect.ui.auth.LoginScreen
+import com.educonnect.ui.auth.ResponsiveLoginScreen
+import com.educonnect.ui.navigation.AppNavigation
 import com.educonnect.ui.theme.Educonnect_FrontTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,10 +24,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Educonnect_FrontTheme {
+                val navController = rememberNavController()
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                    AppNavigation(
+                        modifier = Modifier.padding(innerPadding),
+                        navController = navController
                     )
                 }
             }
@@ -38,10 +44,10 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     )
 }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Educonnect_FrontTheme {
-        Greeting("Android")
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun GreetingPreview() {
+//    Educonnect_FrontTheme {
+//        LoginScreen()
+//    }
+//}
