@@ -11,6 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.educonnect.ui.auth.LoginScreen
+import com.educonnect.ui.auth.ResponsiveLoginScreen
 import com.educonnect.ui.theme.Educonnect_FrontTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,8 +23,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             Educonnect_FrontTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
+                    ResponsiveLoginScreen(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -42,6 +44,6 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     Educonnect_FrontTheme {
-        Greeting("Android")
+        LoginScreen()
     }
 }
