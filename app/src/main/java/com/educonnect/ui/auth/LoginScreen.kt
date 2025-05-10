@@ -1,5 +1,7 @@
 package com.educonnect.ui.auth
 
+import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import com.educonnect.R
@@ -24,10 +26,13 @@ import com.educonnect.ui.theme.OnPrimaryOpacity
 import com.educonnect.ui.theme.Primary
 import com.educonnect.ui.theme.Secondary
 import kotlinx.coroutines.launch
+import androidx.compose.runtime.collectAsState
 
 @Composable
 fun LoginScreen(
-    authViewModel: AuthViewModel = Injection.provideAuthViewModel(),
+    context: Context,
+    authViewModel: AuthViewModel = Injection.provideAuthViewModel(context),
+    onLoginSuccess: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val email by authViewModel.email.collectAsState()
@@ -37,18 +42,16 @@ fun LoginScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
 
-    // État local pour la gestion des saisies
     var emailInput by remember { mutableStateOf(email) }
     var passwordInput by remember { mutableStateOf(password) }
     var passwordVisible by remember { mutableStateOf(false) }
 
     Box(
         modifier
-            .padding(0.dp)
             .fillMaxSize()
             .paint(
                 painterResource(R.drawable.app_background),
-                contentScale = ContentScale.Crop,
+                contentScale = ContentScale.Crop
             )
     ) {
         Column(
@@ -106,6 +109,7 @@ fun LoginScreen(
 
                 Button(
                     onClick = {
+                        Log.d("LoginScreen", "Authentication started")
                         authViewModel.onEmailChange(emailInput)
                         authViewModel.onPasswordChange(passwordInput)
                         authViewModel.authenticate()
@@ -118,14 +122,25 @@ fun LoginScreen(
             }
         }
 
-        // Snackbar Host
         SnackbarHost(
             hostState = snackbarHostState,
             modifier = Modifier.align(Alignment.BottomCenter)
         )
     }
 
-    // Gestion des erreurs et affichage du Snackbar
+    // Observer `userRole` pour redirection
+    LaunchedEffect(authViewModel.userRole) {
+        Log.d("LoginScreen", "LaunchedEffect triggered")
+        authViewModel.userRole.collect { role ->
+            Log.d("LoginScreen", "User Role observed in collect: $role")
+            role?.let {
+                Log.d("LoginScreen", "Redirecting to: $it")
+                onLoginSuccess(it)
+            }
+        }
+    }
+
+
     loginStatus?.let { status ->
         coroutineScope.launch {
             snackbarHostState.showSnackbar(

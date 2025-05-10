@@ -13,12 +13,12 @@ import androidx.compose.ui.unit.sp
 import com.educonnect.utils.SessionManager
 
 @Composable
-fun AdminHomeScreen(
+fun TeacherHomeScreen(
     context: Context,
     onLogout: () -> Unit
 ) {
     val sessionManager = remember { SessionManager(context) }
-    val userData = sessionManager.getUserData()
+    val authenticationResponse = sessionManager.getUserData()
 
     Column(
         modifier = Modifier
@@ -27,14 +27,16 @@ fun AdminHomeScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Bienvenue, Admin", fontSize = 24.sp)
+        Text(
+            text = "Bienvenue, Enseignant",
+            fontSize = 24.sp
+        )
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        userData?.let {
+        authenticationResponse?.let {
             Text(text = "ID Utilisateur : ${it.userId}")
             Text(text = "Rôle : ${it.role}")
-            Text(text = "Token : ${it.token}")
         }
 
         Spacer(modifier = Modifier.height(20.dp))

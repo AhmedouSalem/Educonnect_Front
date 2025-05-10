@@ -20,6 +20,7 @@ import com.educonnect.ui.theme.Secondary
 
 @Composable
 fun UnderlinedTextField(
+    modifier: Modifier= Modifier,
     value: String,
     onValueChange: (String) -> Unit,
     label: String,

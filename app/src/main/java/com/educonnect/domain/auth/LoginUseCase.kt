@@ -1,5 +1,6 @@
 package com.educonnect.domain.auth
 
+import android.util.Log
 import com.educonnect.repository.AuthRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -17,6 +18,7 @@ class LoginUseCase(private val authRepository: AuthRepository) {
     suspend fun execute(email: String, password: String): Flow<String> = flow {
         try {
             val response = authRepository.login(email, password)
+            Log.d("LoginUseCase", "Response emitted: $response")
             emit(response)
         } catch (e: HttpException) {
             emit("Erreur HTTP : ${e.message()}")
@@ -26,5 +28,6 @@ class LoginUseCase(private val authRepository: AuthRepository) {
             emit("Erreur Inconnue : ${e.message}")
         }
     }
+
 }
 
