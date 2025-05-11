@@ -12,50 +12,33 @@ import com.educonnect.ui.home.AdminHomeScreen
 import com.educonnect.ui.home.StudentHomeScreen
 import com.educonnect.ui.home.TeacherHomeScreen
 
-sealed class Screen(val route: String) {
-    object Login : Screen("login")
-    object AdminHome : Screen("admin_home")
-    object StudentHome : Screen("student_home")
-    object TeacherHome : Screen("teacher_home")
-}
-
 @Composable
 fun AppNavigation(
     navController: NavHostController,
-    modifier: Modifier= Modifier
+    modifier: Modifier = Modifier,
+    startDestination: String
 ) {
     val context = LocalContext.current
 
     NavHost(
         navController = navController,
-        startDestination = Screen.Login.route
+        startDestination = startDestination
     ) {
         composable(Screen.Login.route) {
-            Log.d("AppNavigation", "Composing ResponsiveLoginScreen")
             ResponsiveLoginScreen { role ->
-                Log.d("AppNavigation", "Role received in AppNavigation: $role")
                 when (role) {
-                    "admin" -> {
-                        Log.d("AppNavigation", "Navigating to AdminHome")
-                        navController.navigate(Screen.AdminHome.route) {
-                            popUpTo(Screen.Login.route) { inclusive = true }
-                        }
+                    "admin" -> navController.navigate(Screen.AdminHome.route) {
+                        popUpTo(Screen.Login.route) { inclusive = true }
                     }
-                    "student" -> {
-                        navController.navigate(Screen.StudentHome.route) {
-                            popUpTo(Screen.Login.route) { inclusive = true }
-                        }
+                    "student" -> navController.navigate(Screen.StudentHome.route) {
+                        popUpTo(Screen.Login.route) { inclusive = true }
                     }
-                    "teacher" -> {
-                        navController.navigate(Screen.TeacherHome.route) {
-                            popUpTo(Screen.Login.route) { inclusive = true }
-                        }
+                    "teacher" -> navController.navigate(Screen.TeacherHome.route) {
+                        popUpTo(Screen.Login.route) { inclusive = true }
                     }
                 }
             }
         }
-
-
 
         composable(Screen.AdminHome.route) {
             AdminHomeScreen(context = context) {
