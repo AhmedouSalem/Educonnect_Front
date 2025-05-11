@@ -2,6 +2,7 @@ package com.educonnect.ui.home
 
 import TopAppBar
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -9,6 +10,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,18 +19,23 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.educonnect.R
+import com.educonnect.di.Injection
 import com.educonnect.ui.components.CustomTextView
 import com.educonnect.ui.components.CustomWelcomeCard
 import com.educonnect.ui.theme.Primary
-import com.educonnect.utils.SessionManager
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
+import androidx.compose.runtime.collectAsState
+
 
 @Composable
 fun AdminHomeScreen(
     context: Context,
     onLogout: () -> Unit
 ) {
-    val sessionManager = remember { SessionManager(context) }
-    val userData = sessionManager.getUserData()
+    val viewModel: HomeViewModel = remember { Injection.provideHomeViewModel(context) }
+    val adminData by viewModel.adminData.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
 
     Box(
         modifier = Modifier
@@ -59,14 +66,23 @@ fun AdminHomeScreen(
                 onSearch = { /* TODO: Handle Search Click */ },
                 onProfileClick = { /* TODO: Handle Profile Click */ },
                 onLogoutClick = {
-                    sessionManager.clearUserData()
+                    viewModel.clearSession()
                     onLogout()
                 }
             )
 
             Spacer(modifier = Modifier.height(40.dp))
 
-            CustomWelcomeCard(userData?.role ?: "")
+            if (isLoading) {
+                CircularProgressIndicator(color = Primary)
+            } else {
+                adminData?.let {
+                    val fullName = "${it.nom} ${it.prenom}"
+                    CustomWelcomeCard(fullName)
+                } ?: run {
+                    Text(text = "Aucun administrateur trouvé", color = Color.Red)
+                }
+            }
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -74,7 +90,7 @@ fun AdminHomeScreen(
                 onClick = { /* TODO: Ajouter un utilisateur */ },
                 colors = ButtonDefaults.buttonColors(containerColor = Primary),
                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp)
-                ) {
+            ) {
                 CustomTextView(text = stringResource(R.string.ajouter_un_utilisateur))
             }
 
@@ -94,4 +110,5 @@ fun AdminHomeScreen(
         }
     }
 }
+
 

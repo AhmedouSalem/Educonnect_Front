@@ -1,5 +1,6 @@
 package com.educonnect.di
 
+import com.educonnect.repository.AdminService
 import com.educonnect.repository.AuthService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -34,4 +35,8 @@ object NetworkModule {
      * Instance de AuthService.
      */
     val authService: AuthService = retrofit.create(AuthService::class.java)
+    /**
+     * Instance de AdminService.
+     */
+    val adminService: AdminService = retrofit.create(AdminService::class.java)
 }
