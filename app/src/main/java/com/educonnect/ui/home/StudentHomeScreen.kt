@@ -1,6 +1,6 @@
 package com.educonnect.ui.home
 
-import TopAppBar
+import CustomTopAppBar
 import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
@@ -26,7 +26,7 @@ fun StudentHomeScreen(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TopAppBar(
+        CustomTopAppBar(
             onHomeClick = { /* TODO: Handle Home Click */ },
             onSearch = { /* TODO: Handle Search Click */ },
             onProfileClick = { /* TODO: Handle Profile Click */ },

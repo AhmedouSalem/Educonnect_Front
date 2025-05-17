@@ -1,8 +1,7 @@
 package com.educonnect.ui.home
 
-import TopAppBar
+import CustomTopAppBar
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -26,11 +25,15 @@ import com.educonnect.ui.theme.Primary
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.collectAsState
+import androidx.navigation.NavController
+import com.educonnect.ui.components.CustomAdminHomeAddButton
+import com.educonnect.ui.navigation.Screen
 
 
 @Composable
 fun AdminHomeScreen(
     context: Context,
+    navController: NavController,
     onLogout: () -> Unit
 ) {
     val viewModel: HomeViewModel = remember { Injection.provideHomeViewModel(context) }
@@ -51,62 +54,92 @@ fun AdminHomeScreen(
             modifier = Modifier.fillMaxSize()
         )
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .statusBarsPadding()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
+        Image(
+            painter = painterResource(id = R.drawable.logoapp),
+            contentDescription = null,
+            modifier = Modifier.size(300.dp)
+                .align(Alignment.Center),
+        )
+
+        Box(
+
         ) {
-
-            // Top AppBar
-            TopAppBar(
-                onHomeClick = { /* TODO: Handle Home Click */ },
-                onSearch = { /* TODO: Handle Search Click */ },
-                onProfileClick = { /* TODO: Handle Profile Click */ },
-                onLogoutClick = {
-                    viewModel.clearSession()
-                    onLogout()
-                }
-            )
-
-            Spacer(modifier = Modifier.height(40.dp))
-
-            if (isLoading) {
-                CircularProgressIndicator(color = Primary)
-            } else {
-                adminData?.let {
-                    val fullName = "${it.nom} ${it.prenom}"
-                    CustomWelcomeCard(fullName)
-                } ?: run {
-                    Text(text = "Aucun administrateur trouvé", color = Color.Red)
-                }
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(
-                onClick = { /* TODO: Ajouter un utilisateur */ },
-                colors = ButtonDefaults.buttonColors(containerColor = Primary),
-                modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp)
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .statusBarsPadding()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                CustomTextView(text = stringResource(R.string.ajouter_un_utilisateur))
-            }
 
-            Button(
-                onClick = { /* TODO: Ajouter un planning */ },
-                colors = ButtonDefaults.buttonColors(containerColor = Primary),
-                modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp)
-            ) {
-                CustomTextView(text = stringResource(R.string.ajouter_un_planning))
-            }
+                // Top AppBar
+                CustomTopAppBar(
+                    onHomeClick = { /* TODO: Handle Home Click */ },
+                    onSearch = { /* TODO: Handle Search Click */ },
+                    onProfileClick = { /* TODO: Handle Profile Click */ },
+                    onLogoutClick = {
+                        viewModel.clearSession()
+                        onLogout()
+                    }
+                )
 
-            Image(
-                painter = painterResource(id = R.drawable.logoapp),
-                contentDescription = null,
-                modifier = Modifier.size(250.dp),
-            )
+                Spacer(modifier = Modifier.height(40.dp))
+
+                if (isLoading) {
+                    CircularProgressIndicator(color = Primary)
+                } else {
+                    adminData?.let {
+                        val fullName = "${it.nom} ${it.prenom}"
+                        CustomWelcomeCard(fullName)
+                    } ?: run {
+                        Text(text = "Aucun administrateur trouvé", color = Color.Red)
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Button(
+                    onClick = { /* TODO: Ajouter un utilisateur */ },
+                    colors = ButtonDefaults.buttonColors(containerColor = Primary),
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp)
+                ) {
+                    CustomTextView(text = stringResource(R.string.ajouter_un_utilisateur))
+                }
+
+                Button(
+                    onClick = {
+                        navController.navigate(Screen.AddPlanning.route)
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Primary),
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp)
+                ) {
+                    CustomTextView(text = stringResource(R.string.ajouter_un_planning))
+                }
+
+                /** Ajout d'autre buttons **/
+
+                CustomAdminHomeAddButton(
+                    onClick = {
+                        navController.navigate(Screen.AddCampus.route)
+                    },
+                    buttonText = stringResource(R.string.ajouter_un_campus)
+                )
+
+                CustomAdminHomeAddButton(
+                    onClick = {
+                        navController.navigate(Screen.AddBuilding.route)
+                    },
+                    buttonText = stringResource(R.string.ajouter_un_b_timent)
+                )
+
+                CustomAdminHomeAddButton(
+                    onClick = {
+                        navController.navigate(Screen.AddSalle.route)
+                    },
+                    buttonText = stringResource(R.string.ajouter_une_salle)
+                )
+            }
         }
     }
 }

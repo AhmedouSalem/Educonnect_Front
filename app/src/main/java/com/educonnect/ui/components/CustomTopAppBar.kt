@@ -13,13 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.educonnect.ui.theme.OnPrimaryOpacity
 import com.educonnect.ui.theme.Primary
 import com.educonnect.ui.theme.Secondary
 
 @Composable
-fun TopAppBar(
+fun CustomTopAppBar(
     onHomeClick: () -> Unit,
     onSearch: (String) -> Unit,
     onProfileClick: () -> Unit,
