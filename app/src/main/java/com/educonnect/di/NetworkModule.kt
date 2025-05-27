@@ -1,6 +1,10 @@
 package com.educonnect.di
 
+import com.educonnect.repository.AdminService
 import com.educonnect.repository.AuthService
+import com.educonnect.repository.BuildingService
+import com.educonnect.repository.CampusService
+import com.educonnect.repository.SalleService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -34,4 +38,21 @@ object NetworkModule {
      * Instance de AuthService.
      */
     val authService: AuthService = retrofit.create(AuthService::class.java)
+    /**
+     * Instance de AdminService.
+     */
+    val adminService: AdminService = retrofit.create(AdminService::class.java)
+    /**
+     * Instancce de CampusService
+     */
+    val campusService: CampusService = retrofit.create(CampusService::class.java)
+    /**
+     * Instance de BatimentService
+     */
+    val buildingService: BuildingService = retrofit.create(BuildingService::class.java)
+    /**
+     * Instance de SalleService
+     */
+    val salleService: SalleService = retrofit.create(SalleService::class.java)
+
 }

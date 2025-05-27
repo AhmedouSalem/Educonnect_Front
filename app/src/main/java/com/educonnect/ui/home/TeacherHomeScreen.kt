@@ -1,5 +1,6 @@
 package com.educonnect.ui.home
 
+import CustomTopAppBar
 import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
@@ -18,33 +19,27 @@ fun TeacherHomeScreen(
     onLogout: () -> Unit
 ) {
     val sessionManager = remember { SessionManager(context) }
-    val authenticationResponse = sessionManager.getUserData()
+    val userData = sessionManager.getUserData()
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = "Bienvenue, Enseignant",
-            fontSize = 24.sp
+        CustomTopAppBar (
+            onHomeClick = { /* TODO: Handle Home Click */ },
+            onSearch = { /* TODO: Handle Search Click */ },
+            onProfileClick = { /* TODO: Handle Profile Click */ },
+            onLogoutClick = {
+                /* TODO: Handle Logout Click */
+            }
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(32.dp))
 
-        authenticationResponse?.let {
-            Text(text = "ID Utilisateur : ${it.userId}")
-            Text(text = "Rôle : ${it.role}")
-        }
+        Text(text = "Bienvenue, Enseignant", fontSize = 24.sp)
 
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Button(onClick = {
-            sessionManager.clearUserData()
-            onLogout()
-        }) {
+        Button(onClick = onLogout) {
             Text(text = "Se déconnecter")
         }
     }
