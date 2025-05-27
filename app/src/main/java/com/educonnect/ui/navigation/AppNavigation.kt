@@ -6,9 +6,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.educonnect.di.Injection
 import com.educonnect.ui.auth.ResponsiveLoginScreen
 import com.educonnect.ui.building.AddBuildingScreen
 import com.educonnect.ui.campus.AddCampusScreen
+import com.educonnect.ui.users.AddUserScreen
 import com.educonnect.ui.home.AdminHomeScreen
 import com.educonnect.ui.home.StudentHomeScreen
 import com.educonnect.ui.home.TeacherHomeScreen
@@ -105,5 +107,19 @@ fun AppNavigation(
                 },
             )
         }
+
+
+        composable(Screen.AddUser.route) {
+            AddUserScreen(
+                context = context, // ou LocalContext.current
+                navController = navController,
+                userService = Injection.provideUserService(),
+                onLogout = {
+                    // action de déconnexion
+                }
+            )
+        }
+
+
     }
 }

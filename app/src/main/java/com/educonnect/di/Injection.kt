@@ -11,6 +11,7 @@ import com.educonnect.repository.AuthRepository
 import com.educonnect.repository.BuildingRepository
 import com.educonnect.repository.CampusRepository
 import com.educonnect.repository.SalleRepository
+import com.educonnect.repository.UserRepository
 import com.educonnect.ui.auth.AuthViewModel
 import com.educonnect.ui.building.BuildingViewModel
 import com.educonnect.ui.campus.CampusViewModel
@@ -93,5 +94,11 @@ object Injection {
             provideBuildingRepository()
         )
     }
+
+    /** Add User: Etudiant professeur*/
+    fun provideUserService(): UserRepository {
+        return UserRepository(NetworkModule.userApi)
+    }
+
 
 }
