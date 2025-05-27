@@ -1,26 +1,10 @@
 package com.educonnect.repository
 
+import com.educonnect.model.AuthenticationRequest
+import com.educonnect.model.AuthenticationResponse
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.Response
-
-/**
- * Modèle de requête pour l'authentification.
- */
-data class AuthenticationRequest(
-    val username: String,
-    val password: String
-)
-
-/**
- * Modèle de réponse pour l'authentification.
- */
-data class AuthenticationResponse(
-    val userId: String,
-    val role: String,
-    val token: String
-)
-
 interface AuthService {
 
     /**

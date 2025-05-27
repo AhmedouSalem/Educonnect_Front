@@ -1,13 +1,14 @@
 package com.educonnect.repository
 
 import com.educonnect.di.NetworkModule
-import com.educonnect.repository.AuthenticationRequest
+import com.educonnect.model.AuthenticationRequest
+import com.educonnect.utils.SessionManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
 
-class AuthRepository {
+class AuthRepository(sessionManager: SessionManager) {
 
     private val authService = NetworkModule.authService
 

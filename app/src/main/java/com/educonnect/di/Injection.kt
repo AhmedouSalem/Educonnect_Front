@@ -1,20 +1,104 @@
 package com.educonnect.di
 
+import android.content.Context
+import com.educonnect.domain.admin.AddBuildingUseCase
+import com.educonnect.domain.admin.AddCampusUseCase
+import com.educonnect.domain.admin.AddSalleUseCase
+import com.educonnect.domain.admin.GetAdminUseCase
 import com.educonnect.domain.auth.LoginUseCase
+import com.educonnect.repository.AdminRepository
 import com.educonnect.repository.AuthRepository
+import com.educonnect.repository.BuildingRepository
+import com.educonnect.repository.CampusRepository
+import com.educonnect.repository.SalleRepository
+import com.educonnect.repository.UserRepository
 import com.educonnect.ui.auth.AuthViewModel
+import com.educonnect.ui.building.BuildingViewModel
+import com.educonnect.ui.campus.CampusViewModel
+import com.educonnect.ui.home.HomeViewModel
+import com.educonnect.ui.salle.SalleViewModel
+import com.educonnect.utils.SessionManager
 
 object Injection {
-
-    private val authRepository by lazy {
-        AuthRepository()
+    /** Authentification **/
+    fun provideAuthRepository(context: Context): AuthRepository {
+        val sessionManager = SessionManager(context)
+        return AuthRepository(sessionManager)
     }
 
-    private val loginUseCase by lazy {
-        LoginUseCase(authRepository)
+    fun provideLoginUseCase(context: Context): LoginUseCase {
+        return LoginUseCase(provideAuthRepository(context))
     }
 
-    fun provideAuthViewModel(): AuthViewModel {
-        return AuthViewModel(loginUseCase)
+    fun provideAuthViewModel(context: Context): AuthViewModel {
+        return AuthViewModel(provideLoginUseCase(context))
     }
+
+    /** AdminHomePage For Load NOM-PRENOM **/
+    fun provideAdminRepository(context: Context): AdminRepository {
+        val sessionManager = SessionManager(context)
+        return AdminRepository(sessionManager)
+    }
+
+    fun provideGetAdminUseCase(context: Context): GetAdminUseCase {
+        return GetAdminUseCase(provideAdminRepository(context))
+    }
+
+    fun provideHomeViewModel(context: Context): HomeViewModel {
+        val sessionManager = SessionManager(context)
+        return HomeViewModel(provideGetAdminUseCase(context), sessionManager)
+    }
+
+    /** AddCampus **/
+    fun provideCampusRepository(context: Context): CampusRepository {
+        // Tu pourras injecter ici un SessionManager ou un retrofitService si besoin plus tard
+        return CampusRepository()
+    }
+
+    fun provideAddCampusUseCase(context: Context): AddCampusUseCase {
+        return AddCampusUseCase(provideCampusRepository(context))
+    }
+
+    fun provideCampusViewModel(context: Context): CampusViewModel {
+        return CampusViewModel(provideAddCampusUseCase(context))
+    }
+
+    /** AddBuilding **/
+    fun provideBuildingRepository(): BuildingRepository {
+        return BuildingRepository()
+    }
+
+    fun provideAddBuildingUseCase(): AddBuildingUseCase {
+        return AddBuildingUseCase(provideBuildingRepository())
+    }
+
+    fun provideBuildingViewModel(context: Context): BuildingViewModel {
+        return BuildingViewModel(
+            provideAddBuildingUseCase(),
+            provideCampusRepository(context)
+        )
+    }
+
+    /** AddSalle **/
+    fun provideSalleRepository(): SalleRepository {
+        return SalleRepository()
+    }
+
+    fun provideAddSalleUseCase(): AddSalleUseCase {
+        return AddSalleUseCase(provideSalleRepository())
+    }
+
+    fun provideSalleViewModel(): SalleViewModel {
+        return SalleViewModel(
+            provideAddSalleUseCase(),
+            provideBuildingRepository()
+        )
+    }
+
+    /** Add User: Etudiant professeur*/
+    fun provideUserService(): UserRepository {
+        return UserRepository(NetworkModule.userApi)
+    }
+
+
 }

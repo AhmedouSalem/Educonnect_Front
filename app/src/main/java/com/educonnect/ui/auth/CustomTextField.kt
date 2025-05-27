@@ -1,5 +1,6 @@
 package com.educonnect.ui.auth
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -19,6 +20,7 @@ import com.educonnect.ui.theme.Secondary
 
 @Composable
 fun UnderlinedTextField(
+    modifier: Modifier= Modifier,
     value: String,
     onValueChange: (String) -> Unit,
     label: String,
@@ -26,7 +28,6 @@ fun UnderlinedTextField(
     isPassword: Boolean = false,
     passwordVisible: Boolean = false,
     onVisibilityToggle: (() -> Unit)? = null,
-    modifier: Modifier,
 ) {
     val visualTransformation =
         if (isPassword && !passwordVisible) PasswordVisualTransformation()
@@ -49,7 +50,7 @@ fun UnderlinedTextField(
         } else null,
         visualTransformation = visualTransformation,
         singleLine = true,
-        modifier = modifier,
+        modifier = Modifier.fillMaxWidth(),
         colors = TextFieldDefaults.colors(
             focusedIndicatorColor = Secondary,
             unfocusedIndicatorColor = Secondary,
