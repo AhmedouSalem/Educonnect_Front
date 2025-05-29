@@ -8,6 +8,7 @@ import com.educonnect.repository.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 class PlanningViewModel(
     private val mentionRepository: MentionRepository,
@@ -41,6 +42,8 @@ class PlanningViewModel(
     private val _salle = MutableStateFlow("")
     val salle: StateFlow<String> = _salle
 
+    val calendar = Calendar.getInstance()
+    
     private val _heureDebut = MutableStateFlow("")
     val heureDebut: StateFlow<String> = _heureDebut
 
@@ -58,11 +61,14 @@ class PlanningViewModel(
     private val _mentionList = MutableStateFlow<List<String>>(emptyList())
     val mentionList: StateFlow<List<String>> = _mentionList
 
-    private val _parcoursList = MutableStateFlow<List<String>>(emptyList())
-    val parcoursList: StateFlow<List<String>> = _parcoursList
+    // était : List<String>
+    private val _parcoursList = MutableStateFlow<List<Pair<String, String>>>(emptyList())
+    val parcoursList: StateFlow<List<Pair<String, String>>> = _parcoursList
 
-    private val _coursList = MutableStateFlow<List<String>>(emptyList())
-    val coursList: StateFlow<List<String>> = _coursList
+    private val _coursList = MutableStateFlow<List<Pair<String, String>>>(emptyList())
+    val coursList: StateFlow<List<Pair<String, String>>> = _coursList
+
+
 
     private val _campusList = MutableStateFlow<List<String>>(emptyList())
     val campusList: StateFlow<List<String>> = _campusList
@@ -89,14 +95,18 @@ class PlanningViewModel(
     private fun chargerParcours(mention: String) {
         viewModelScope.launch {
             _parcoursList.value = parcoursRepository.getParcoursByMention(mention)
+                .map { it.code to it.name } // Pair(code, label)
         }
     }
 
     private fun chargerCours(parcours: String) {
         viewModelScope.launch {
             _coursList.value = courseRepository.getCoursesByParcours(parcours)
+                .map { it.code to it.intitule }
         }
     }
+
+
 
     private fun chargerCampus() {
         viewModelScope.launch {
@@ -111,10 +121,14 @@ class PlanningViewModel(
     }
 
     private fun chargerSalles(batiment: String) {
-        viewModelScope.launch {
-            _salleList.value = salleRepository.getSallesByBatiment(batiment)
+        val campusName = campus.value
+        if (campusName.isNotBlank()) {
+            viewModelScope.launch {
+                _salleList.value = salleRepository.getSallesByBatimentAndCampus(campusName, batiment)
+            }
         }
     }
+
 
     // Mise à jour conditionnelle
     fun onMentionSelected(value: String) {

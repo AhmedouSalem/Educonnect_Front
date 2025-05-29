@@ -52,10 +52,27 @@ class SalleRepository {
         }
     }
 
-    suspend fun getSallesByBatiment(batimentCode: String): List<String> {
+//    suspend fun getSallesByBatiment(batimentCode: String): List<String> {
+//        return withContext(Dispatchers.IO) {
+//            try {
+//                val response = salleService.getSallesByBatiment(batimentCode)
+//                if (response.isSuccessful) {
+//                    response.body()?.mapNotNull { it.numero } ?: emptyList()
+//                } else {
+//                    Log.e("SalleRepository", "Erreur API : ${response.code()}")
+//                    emptyList()
+//                }
+//            } catch (e: IOException) {
+//                Log.e("SalleRepository", "Erreur Réseau : ${e.message}")
+//                emptyList()
+//            }
+//        }
+//    }
+
+    suspend fun getSallesByBatimentAndCampus(campus: String, batimentCode: String): List<String> {
         return withContext(Dispatchers.IO) {
             try {
-                val response = salleService.getSallesByBatiment(batimentCode)
+                val response = salleService.getSallesByBatimentAndCampus(campus, batimentCode)
                 if (response.isSuccessful) {
                     response.body()?.mapNotNull { it.numero } ?: emptyList()
                 } else {
@@ -68,4 +85,5 @@ class SalleRepository {
             }
         }
     }
+
 }

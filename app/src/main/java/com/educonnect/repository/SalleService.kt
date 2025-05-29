@@ -15,4 +15,7 @@ interface SalleService {
 
     @GET("api/admin/salles/{batimentCode}")
     suspend fun getSallesByBatiment(@Path("batimentCode") batimentCode: String): Response<List<SalleDto>>
+
+    @GET("api/admin/salles/{nomC}/{batiment_code}")
+    suspend fun getSallesByBatimentAndCampus(@Path("nomC") nomC: String, @Path("batiment_code") batimentCode: String): Response<List<SalleDto>>
 }

@@ -5,7 +5,9 @@ import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -55,6 +57,9 @@ fun AddPlanningScreen(
     // Pickers
     val calendar = Calendar.getInstance()
 
+    val scrollState = rememberScrollState()
+
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -83,55 +88,72 @@ fun AddPlanningScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Text("Ajout d’un planning", fontSize = 20.sp, color = Secondary)
-
-            Spacer(modifier = Modifier.height(16.dp))
-
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(Primary.copy(alpha = 0.1f))
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                    .fillMaxSize()
+                    .verticalScroll(scrollState)
             ) {
-                CustomDropdown("Mention", mentionList, mention, viewModel::onMentionSelected)
+                Text("Ajout d’un planning", fontSize = 20.sp, color = Secondary)
 
-                if (mention.isNotBlank()) {
-                    CustomDropdown("Parcours", parcoursList, parcours, viewModel::onParcoursSelected)
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(Primary.copy(alpha = 0.1f))
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    CustomDropdown("Mention", mentionList, mention, viewModel::onMentionSelected)
+
+                    if (mention.isNotBlank()) {
+                        CustomDropdownWithLabelValue(
+                            label = "Parcours",
+                            items = parcoursList,
+                            selectedValue = parcours,
+                            onItemSelected = viewModel::onParcoursSelected
+                        )
+                    }
+
+                    if (parcours.isNotBlank()) {
+                        CustomDropdownWithLabelValue(
+                            label = "Cours",
+                            items = coursList,
+                            selectedValue = cours,
+                            onItemSelected = viewModel::onCoursSelected
+                        )
+                    }
+
+
+                    CustomDropdown("Type du cours", typeCoursList, typeCours, viewModel::onTypeCoursSelected)
+
+                    CustomDropdown("Campus", campusList, campus, viewModel::onCampusSelected)
+
+                    if (campus.isNotBlank()) {
+                        CustomDropdown("Bâtiment", batimentList, batiment, viewModel::onBatimentSelected)
+                    }
+
+                    if (batiment.isNotBlank()) {
+                        CustomDropdown("N° Salle", salleList, salle, viewModel::onSalleSelected)
+                    }
+
+                    // Heure début
+                    CustomTimePicker(label = "Heure début", time = heureDebut) { viewModel.onHeureDebutChange(it) }
+
+                    // Heure fin
+                    CustomTimePicker(label = "Heure fin", time = heureFin) { viewModel.onHeureFinChange(it) }
+
+                    // Date
+                    CustomDatePicker(label = "Date", date = date) { viewModel.onDateChange(it) }
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    CustomAdminAddButton(
+                        onAddClick = viewModel::ajouterPlanning,
+                        buttonText = "AJOUTER"
+                    )
                 }
-
-                if (parcours.isNotBlank()) {
-                    CustomDropdown("Cours", coursList, cours, viewModel::onCoursSelected)
-                }
-
-                CustomDropdown("Type du cours", typeCoursList, typeCours, viewModel::onTypeCoursSelected)
-
-                CustomDropdown("Campus", campusList, campus, viewModel::onCampusSelected)
-
-                if (campus.isNotBlank()) {
-                    CustomDropdown("Bâtiment", batimentList, batiment, viewModel::onBatimentSelected)
-                }
-
-                if (batiment.isNotBlank()) {
-                    CustomDropdown("N° Salle", salleList, salle, viewModel::onSalleSelected)
-                }
-
-                // Heure début
-                CustomTimePicker(label = "Heure début", time = heureDebut) { viewModel.onHeureDebutChange(it) }
-
-                // Heure fin
-                CustomTimePicker(label = "Heure fin", time = heureFin) { viewModel.onHeureFinChange(it) }
-
-                // Date
-                CustomDatePicker(label = "Date", date = date) { viewModel.onDateChange(it) }
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                CustomAdminAddButton(
-                    onAddClick = viewModel::ajouterPlanning,
-                    buttonText = "AJOUTER"
-                )
             }
         }
 

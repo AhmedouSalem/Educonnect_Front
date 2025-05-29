@@ -16,7 +16,7 @@ interface BuildingService {
     @GET("api/admin/batiments")
     suspend fun getAllBatiments(): Response<List<BatimentDto>>
 
-    @GET("api/admin/batiments/{campus}")
-    suspend fun getBatimentsByCampus(@Path("campus") campusName: String): Response<List<BatimentDto>>
+    @GET("api/admin/batiments/{nomC}")
+    suspend fun getBatimentsByCampus(@Path("nomC") campusName: String): Response<List<BatimentDto>>
 
 }

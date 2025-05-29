@@ -2,6 +2,7 @@ package com.educonnect.repository
 
 import android.util.Log
 import com.educonnect.di.NetworkModule
+import com.educonnect.model.CourseDto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
@@ -10,12 +11,12 @@ class CourseRepository {
 
     private val courseService = NetworkModule.courseService
 
-    suspend fun getCoursesByParcours(parcoursCode: String): List<String> {
+    suspend fun getCoursesByParcours(parcoursCode: String): List<CourseDto> {
         return withContext(Dispatchers.IO) {
             try {
                 val response = courseService.getCoursesByParcours(parcoursCode)
                 if (response.isSuccessful) {
-                    response.body()?.mapNotNull { it.intitule } ?: emptyList()
+                    response.body() ?: emptyList()
                 } else {
                     Log.e("CourseRepository", "Erreur API : ${response.code()}")
                     emptyList()
@@ -26,4 +27,5 @@ class CourseRepository {
             }
         }
     }
+
 }
