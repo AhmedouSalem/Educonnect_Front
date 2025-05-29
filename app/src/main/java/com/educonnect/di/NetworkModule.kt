@@ -9,6 +9,7 @@ import com.educonnect.repository.MentionService
 import com.educonnect.repository.ParcoursService
 import com.educonnect.repository.PlanningService
 import com.educonnect.repository.SalleService
+import com.educonnect.repository.UserService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -76,5 +77,8 @@ object NetworkModule {
      * Planning Service
      */
     val planningService: PlanningService = retrofit.create(PlanningService::class.java)
+
+    /**Instance de UserService*/
+    val userApi: UserService =retrofit.create(UserService::class.java)
 
 }

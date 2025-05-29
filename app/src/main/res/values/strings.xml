@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Educonnect_Front</string>
     <string name="welcome">Bienvenue</string>
-    <string name="ajouter_un_utilisateur">AJOUTER UN UTILISATEUR</string>
+    <string name="ajouter_un_utilisateur">GÉRER LES UTILISATEURS</string>
     <string name="ajouter_un_planning">AJOUTER UN PLANNING</string>
     <string name="ajout_d_un_planning">Ajout d\'un planning</string>
     <string name="ajouter_un_campus">AJOUTER UN CAMPUS</string>

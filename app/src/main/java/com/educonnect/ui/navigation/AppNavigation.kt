@@ -6,6 +6,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.educonnect.di.Injection
 import com.educonnect.ui.auth.ResponsiveLoginScreen
 import com.educonnect.ui.building.AddBuildingScreen
 import com.educonnect.ui.campus.AddCampusScreen
@@ -14,6 +15,7 @@ import com.educonnect.ui.home.StudentHomeScreen
 import com.educonnect.ui.home.TeacherHomeScreen
 import com.educonnect.ui.planning.AddPlanningScreen
 import com.educonnect.ui.salle.AddSalleScreen
+import com.educonnect.ui.users.AddUserScreen
 
 @Composable
 fun AppNavigation(
@@ -33,10 +35,10 @@ fun AppNavigation(
                     "admin" -> navController.navigate(Screen.AdminHome.route) {
                         popUpTo(Screen.Login.route) { inclusive = true }
                     }
-                    "student" -> navController.navigate(Screen.StudentHome.route) {
+                    "etudiant" -> navController.navigate(Screen.StudentHome.route) {
                         popUpTo(Screen.Login.route) { inclusive = true }
                     }
-                    "teacher" -> navController.navigate(Screen.TeacherHome.route) {
+                    "professeur" -> navController.navigate(Screen.TeacherHome.route) {
                         popUpTo(Screen.Login.route) { inclusive = true }
                     }
                 }
@@ -100,6 +102,17 @@ fun AppNavigation(
                 onBackClick = {
                     navController.popBackStack()
                 },
+            )
+        }
+
+        composable(Screen.AddUser.route) {
+            AddUserScreen(
+                context = context, // ou LocalContext.current
+                navController = navController,
+                userService = Injection.provideUserService(),
+                onLogout = {
+                    // action de déconnexion
+                }
             )
         }
     }

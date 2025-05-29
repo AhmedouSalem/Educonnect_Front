@@ -16,6 +16,7 @@ import com.educonnect.repository.MentionRepository
 import com.educonnect.repository.ParcoursRepository
 import com.educonnect.repository.PlanningRepository
 import com.educonnect.repository.SalleRepository
+import com.educonnect.repository.UserRepository
 import com.educonnect.ui.auth.AuthViewModel
 import com.educonnect.ui.building.BuildingViewModel
 import com.educonnect.ui.campus.CampusViewModel
@@ -98,6 +99,11 @@ object Injection {
             provideAddSalleUseCase(),
             provideBuildingRepository()
         )
+    }
+
+    /** Add User: Etudiant professeur*/
+    fun provideUserService(): UserRepository {
+        return UserRepository(NetworkModule.userApi)
     }
 
     /** Mention **/
