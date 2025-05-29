@@ -7,10 +7,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.educonnect.ui.theme.Secondary
 import java.util.*
 
 @Composable
@@ -35,19 +36,33 @@ fun CustomTimePicker(
         true
     )
 
-    OutlinedTextField(
-        value = time,
-        onValueChange = {},
-        label = { Text("$label *") },
-        readOnly = true,
-        trailingIcon = {
-            Icon(
-                imageVector = Icons.Default.AccessTime,
-                contentDescription = "Sélecteur d'heure"
-            )
-        },
+    Column(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { timePickerDialog.show() }
-    )
+            .padding(vertical = 8.dp)
+    ) {
+        Text(text = "$label *", color = Secondary, style = MaterialTheme.typography.labelSmall)
+
+        OutlinedTextField(
+            value = time,
+            onValueChange = {},
+            readOnly = true,
+            enabled = false,
+            modifier = Modifier.fillMaxWidth(),
+            trailingIcon = {
+                Icon(
+                    imageVector = Icons.Default.AccessTime,
+                    contentDescription = "Time Picker",
+                    tint = Secondary
+                )
+            },
+            colors = TextFieldDefaults.colors(
+                disabledContainerColor = Color.Transparent,
+                disabledTextColor = Secondary,
+                disabledIndicatorColor = Secondary,
+                disabledLabelColor = Secondary
+            )
+        )
+    }
 }

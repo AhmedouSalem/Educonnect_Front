@@ -5,7 +5,6 @@ import com.educonnect.repository.AuthService
 import com.educonnect.repository.BuildingService
 import com.educonnect.repository.CampusService
 import com.educonnect.repository.CourseService
-import com.educonnect.repository.MentionService
 import com.educonnect.repository.ParcoursService
 import com.educonnect.repository.PlanningService
 import com.educonnect.repository.SalleService
@@ -59,11 +58,6 @@ object NetworkModule {
      * Instance de SalleService
      */
     val salleService: SalleService = retrofit.create(SalleService::class.java)
-
-    /**
-     * Mention Service
-     */
-    val mentionService: MentionService = retrofit.create(MentionService::class.java)
 
     /**
      * Parcours Service

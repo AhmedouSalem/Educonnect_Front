@@ -7,13 +7,13 @@ import kotlinx.coroutines.withContext
 import java.io.IOException
 
 class MentionRepository {
+    private val userService = NetworkModule.userApi
 
-    private val mentionService = NetworkModule.mentionService
 
     suspend fun getAllMentions(): List<String> {
         return withContext(Dispatchers.IO) {
             try {
-                val response = mentionService.getAllMentions()
+                val response = userService.getMentions()
                 if (response.isSuccessful) {
                     response.body()?.mapNotNull { it.intitule } ?: emptyList()
                 } else {

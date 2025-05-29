@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import com.educonnect.R
 import com.educonnect.di.Injection
 import com.educonnect.ui.components.*
+import com.educonnect.ui.theme.OnPrimaryOpacity
 import com.educonnect.ui.theme.Primary
 import com.educonnect.ui.theme.Secondary
 import kotlinx.coroutines.launch
@@ -92,8 +93,10 @@ fun AddPlanningScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .verticalScroll(scrollState)
+                    .clip(RoundedCornerShape(16.dp)),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("Ajout d’un planning", fontSize = 20.sp, color = Secondary)
+                CustomAdminAddPageTitleTextView(text = "Ajout d’un planning")
 
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -101,7 +104,7 @@ fun AddPlanningScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(16.dp))
-                        .background(Primary.copy(alpha = 0.1f))
+                        .background(OnPrimaryOpacity.copy(alpha = 0.2F))
                         .padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
@@ -140,10 +143,8 @@ fun AddPlanningScreen(
 
                     // Heure début
                     CustomTimePicker(label = "Heure début", time = heureDebut) { viewModel.onHeureDebutChange(it) }
-
-                    // Heure fin
+                    // Heur fin
                     CustomTimePicker(label = "Heure fin", time = heureFin) { viewModel.onHeureFinChange(it) }
-
                     // Date
                     CustomDatePicker(label = "Date", date = date) { viewModel.onDateChange(it) }
 
