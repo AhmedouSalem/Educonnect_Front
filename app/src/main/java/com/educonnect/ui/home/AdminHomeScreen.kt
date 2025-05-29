@@ -100,7 +100,9 @@ fun AdminHomeScreen(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Button(
-                    onClick = { /* TODO: Ajouter un utilisateur */ },
+                    onClick = { /* TODO: Ajouter un utilisateur */
+
+                        navController.navigate(Screen.AddUser.route) },
                     colors = ButtonDefaults.buttonColors(containerColor = Primary),
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp)
                 ) {
