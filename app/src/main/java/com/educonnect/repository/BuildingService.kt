@@ -6,6 +6,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface BuildingService {
 
@@ -14,5 +15,8 @@ interface BuildingService {
 
     @GET("api/admin/batiments")
     suspend fun getAllBatiments(): Response<List<BatimentDto>>
+
+    @GET("api/admin/batiments/{campus}")
+    suspend fun getBatimentsByCampus(@Path("campus") campusName: String): Response<List<BatimentDto>>
 
 }

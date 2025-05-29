@@ -55,4 +55,21 @@ class BuildingRepository {
             }
         }
     }
+
+    suspend fun getBatimentsByCampus(campus: String): List<String> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = buildingService.getBatimentsByCampus(campus)
+                if (response.isSuccessful) {
+                    response.body()?.mapNotNull { it.codeB } ?: emptyList()
+                } else {
+                    Log.e("BatimentRepository", "Erreur API : ${response.code()}")
+                    emptyList()
+                }
+            } catch (e: IOException) {
+                Log.e("BatimentRepository", "Erreur Réseau : ${e.message}")
+                emptyList()
+            }
+        }
+    }
 }
