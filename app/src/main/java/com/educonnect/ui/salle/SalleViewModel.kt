@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.educonnect.domain.admin.AddSalleUseCase
 import com.educonnect.repository.BuildingRepository
+import com.educonnect.repository.CampusRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -11,6 +12,7 @@ import kotlinx.coroutines.launch
 class SalleViewModel(
     private val addSalleUseCase: AddSalleUseCase,
     private val buildingRepository: BuildingRepository,
+    private val campusRepository: CampusRepository,
 ) : ViewModel() {
 
     private val _numero = MutableStateFlow("")
@@ -35,11 +37,19 @@ class SalleViewModel(
     private val _batimentCode = MutableStateFlow("")
     val batimentCode: StateFlow<String> = _batimentCode
 
+    private val _campus = MutableStateFlow("")
+    val campus: StateFlow<String> = _campus
+
+    private val _campusList = MutableStateFlow<List<String>>(emptyList())
+    val campusList: StateFlow<List<String>> = _campusList
+
     private val _batimentList = MutableStateFlow<List<String>>(emptyList())
     val batimentList: StateFlow<List<String>> = _batimentList
 
     init {
-        chargerBatiments()
+        //chargerBatiments()
+        // batiment depend de campus
+        chargerCampus()
     }
 
     fun onBatimentNomChange(newValue: String) {
@@ -49,6 +59,12 @@ class SalleViewModel(
 
     fun onNumeroChange(newValue: String) {
         _numero.value = newValue
+    }
+
+    fun onCampusSelected(value: String) {
+        _campus.value = value
+        _batimentCode.value = ""
+        chargerBatiments(value)
     }
 
     fun onCapaciteChange(newValue: String) {
@@ -63,21 +79,33 @@ class SalleViewModel(
         _etage.value = newValue
     }
 
+    private fun chargerCampus() {
+        viewModelScope.launch {
+            _campusList.value = campusRepository.getAllCampus()
+        }
+    }
+
     fun clearMessage() {
         _message.value = null
     }
 
-    private fun chargerBatiments() {
+//    private fun chargerBatiments() {
+//        viewModelScope.launch {
+//            val result = buildingRepository.getAllBatimentCodes()
+//            _batimentList.value = result.distinct()
+//        }
+//    }
+
+    private fun chargerBatiments(campus: String) {
         viewModelScope.launch {
-            val result = buildingRepository.getAllBatimentCodes()
-            _batimentList.value = result.distinct()
+            _batimentList.value = buildingRepository.getBatimentsByCampus(campus)
         }
     }
 
 
     fun ajouterSalle() {
         viewModelScope.launch {
-            if (_numero.value.isBlank() || _capacite.value.isBlank() || _type.value.isBlank() || _etage.value.isBlank()) {
+            if (_numero.value.isBlank() || _capacite.value.isBlank() || _campus.value.isBlank() || batimentCode.value.isBlank() || _type.value.isBlank() || _etage.value.isBlank()) {
                 _message.value = "Tous les champs sont obligatoires"
                 return@launch
             }
@@ -88,6 +116,7 @@ class SalleViewModel(
                     capacite = _capacite.value.trim(),
                     type = _type.value.trim(),
                     etage = _etage.value.trim(),
+                    campusNom = _campus.value.trim(),
                     batimentCode = _batimentCode.value.trim()
                 )
 

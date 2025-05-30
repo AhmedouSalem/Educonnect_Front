@@ -17,11 +17,12 @@ class SalleRepository {
         capacite: String,
         type: String,
         etage: String,
+        campusNom: String,
         batimentCode: String
     ): Boolean {
         return withContext(Dispatchers.IO) {
             try {
-                val request = SalleDto(numero, capacite, type, etage, batimentCode)
+                val request = SalleDto(numero, capacite, type, etage,campusNom, batimentCode)
                 val response = salleService.addSalle(request)
 
                 when {

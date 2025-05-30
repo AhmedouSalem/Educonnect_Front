@@ -27,13 +27,15 @@ import kotlinx.coroutines.launch
 fun AddSalleScreen(
     context: Context,
     onBackClick: () -> Unit,
-    viewModel: SalleViewModel = remember { Injection.provideSalleViewModel() }
+    viewModel: SalleViewModel = remember { Injection.provideSalleViewModel(context) }
 ) {
     val numero by viewModel.numero.collectAsState()
     val capacite by viewModel.capacite.collectAsState()
     val type by viewModel.type.collectAsState()
     val etage by viewModel.etage.collectAsState()
     val message by viewModel.message.collectAsState()
+    val campus by viewModel.campus.collectAsState()
+    val campusList by viewModel.campusList.collectAsState()
 
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
@@ -91,12 +93,16 @@ fun AddSalleScreen(
                     onValueChange = viewModel::onCapaciteChange
                 )
 
-                CustomDropdown(
-                    label = stringResource(R.string.b_timent),
-                    items = viewModel.batimentList.collectAsState().value,
-                    selectedItem = viewModel.batimentCode.collectAsState().value,
-                    onItemSelected = viewModel::onBatimentNomChange
-                )
+                CustomDropdown("Campus", campusList, campus, viewModel::onCampusSelected)
+
+                if (campus.isNotBlank()) {
+                    CustomDropdown(
+                        label = stringResource(R.string.b_timent),
+                        items = viewModel.batimentList.collectAsState().value,
+                        selectedItem = viewModel.batimentCode.collectAsState().value,
+                        onItemSelected = viewModel::onBatimentNomChange
+                    )
+                }
 
                 CustomDropdown(
                     label = stringResource(R.string.type),
