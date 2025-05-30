@@ -4,6 +4,9 @@ import com.educonnect.repository.AdminService
 import com.educonnect.repository.AuthService
 import com.educonnect.repository.BuildingService
 import com.educonnect.repository.CampusService
+import com.educonnect.repository.CourseService
+import com.educonnect.repository.ParcoursService
+import com.educonnect.repository.PlanningService
 import com.educonnect.repository.SalleService
 import com.educonnect.repository.UserService
 import okhttp3.OkHttpClient
@@ -55,6 +58,19 @@ object NetworkModule {
      * Instance de SalleService
      */
     val salleService: SalleService = retrofit.create(SalleService::class.java)
+
+    /**
+     * Parcours Service
+     */
+    val parcoursService: ParcoursService = retrofit.create(ParcoursService::class.java)
+    /**
+     * Cours Service
+     */
+    val courseService: CourseService = retrofit.create(CourseService::class.java)
+    /**
+     * Planning Service
+     */
+    val planningService: PlanningService = retrofit.create(PlanningService::class.java)
 
     /**Instance de UserService*/
     val userApi: UserService by lazy {

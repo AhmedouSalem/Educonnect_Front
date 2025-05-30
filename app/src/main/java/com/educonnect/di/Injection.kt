@@ -3,6 +3,7 @@ package com.educonnect.di
 import android.content.Context
 import com.educonnect.domain.admin.AddBuildingUseCase
 import com.educonnect.domain.admin.AddCampusUseCase
+import com.educonnect.domain.admin.AddPlanningUseCase
 import com.educonnect.domain.admin.AddSalleUseCase
 import com.educonnect.domain.admin.GetAdminUseCase
 import com.educonnect.domain.auth.LoginUseCase
@@ -10,12 +11,17 @@ import com.educonnect.repository.AdminRepository
 import com.educonnect.repository.AuthRepository
 import com.educonnect.repository.BuildingRepository
 import com.educonnect.repository.CampusRepository
+import com.educonnect.repository.CourseRepository
+import com.educonnect.repository.MentionRepository
+import com.educonnect.repository.ParcoursRepository
+import com.educonnect.repository.PlanningRepository
 import com.educonnect.repository.SalleRepository
 import com.educonnect.repository.UserRepository
 import com.educonnect.ui.auth.AuthViewModel
 import com.educonnect.ui.building.BuildingViewModel
 import com.educonnect.ui.campus.CampusViewModel
 import com.educonnect.ui.home.HomeViewModel
+import com.educonnect.ui.planning.PlanningViewModel
 import com.educonnect.ui.salle.SalleViewModel
 import com.educonnect.utils.SessionManager
 
@@ -94,6 +100,44 @@ object Injection {
             provideBuildingRepository()
         )
     }
+
+    /** Mention **/
+    fun provideMentionRepository(): MentionRepository {
+        return MentionRepository()
+    }
+
+    /** Parcours **/
+    fun provideParcoursRepository(): ParcoursRepository {
+        return ParcoursRepository()
+    }
+
+    /** Cours **/
+    fun provideCourseRepository(): CourseRepository {
+        return CourseRepository()
+    }
+
+    /** Planning **/
+    fun providePlanningRepository(): PlanningRepository {
+        return PlanningRepository()
+    }
+
+    fun provideAddPlanningUseCase(): AddPlanningUseCase {
+        return AddPlanningUseCase(providePlanningRepository())
+    }
+
+    /** Planning ViewModel **/
+    fun providePlanningViewModel(context: Context): PlanningViewModel {
+        return PlanningViewModel(
+            mentionRepository = provideMentionRepository(),
+            parcoursRepository = provideParcoursRepository(),
+            courseRepository = provideCourseRepository(),
+            campusRepository = provideCampusRepository(context),
+            batimentRepository = provideBuildingRepository(),
+            salleRepository = provideSalleRepository(),
+            addPlanningUseCase = provideAddPlanningUseCase()
+        )
+    }
+
 
     /** Add User: Etudiant professeur*/
     fun provideUserService(): UserRepository {

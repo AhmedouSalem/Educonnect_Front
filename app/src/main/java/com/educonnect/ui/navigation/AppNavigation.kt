@@ -75,9 +75,6 @@ fun AppNavigation(
                 onBackClick = {
                     navController.popBackStack()
                 },
-                onAddClick = {
-                    // TODO: Handle add planning action
-                }
             )
         }
 
