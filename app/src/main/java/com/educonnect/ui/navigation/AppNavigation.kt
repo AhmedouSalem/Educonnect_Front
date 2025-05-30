@@ -7,15 +7,18 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.educonnect.di.Injection
+import com.educonnect.di.NetworkModule
+import com.educonnect.repository.UserRepository
 import com.educonnect.ui.auth.ResponsiveLoginScreen
 import com.educonnect.ui.building.AddBuildingScreen
 import com.educonnect.ui.campus.AddCampusScreen
-import com.educonnect.ui.users.AddUserScreen
 import com.educonnect.ui.home.AdminHomeScreen
 import com.educonnect.ui.home.StudentHomeScreen
 import com.educonnect.ui.home.TeacherHomeScreen
 import com.educonnect.ui.planning.AddPlanningScreen
 import com.educonnect.ui.salle.AddSalleScreen
+import com.educonnect.ui.users.AddUserScreen
+import com.educonnect.ui.users.ListUsersScreen
 
 @Composable
 fun AppNavigation(
@@ -35,10 +38,10 @@ fun AppNavigation(
                     "admin" -> navController.navigate(Screen.AdminHome.route) {
                         popUpTo(Screen.Login.route) { inclusive = true }
                     }
-                    "student" -> navController.navigate(Screen.StudentHome.route) {
+                    "etudiant" -> navController.navigate(Screen.StudentHome.route) {
                         popUpTo(Screen.Login.route) { inclusive = true }
                     }
-                    "teacher" -> navController.navigate(Screen.TeacherHome.route) {
+                    "professeur" -> navController.navigate(Screen.TeacherHome.route) {
                         popUpTo(Screen.Login.route) { inclusive = true }
                     }
                 }
@@ -46,32 +49,29 @@ fun AppNavigation(
         }
 
         composable(Screen.AdminHome.route) {
-            AdminHomeScreen(context = context, navController= navController) {
-                navController.navigate(Screen.Login.route) {
-                    popUpTo(Screen.AdminHome.route) { inclusive = true }
-                }
-            }
+            AdminHomeScreen(context = context, navController= navController, onLogout =  {
+                performLogout(navController)
+            })
         }
 
         composable(Screen.StudentHome.route) {
-            StudentHomeScreen(context = context) {
-                navController.navigate(Screen.Login.route) {
-                    popUpTo(Screen.StudentHome.route) { inclusive = true }
-                }
-            }
+            StudentHomeScreen(context = context, onLogout =  {
+                performLogout(navController)
+            })
         }
 
         composable(Screen.TeacherHome.route) {
-            TeacherHomeScreen(context = context) {
-                navController.navigate(Screen.Login.route) {
-                    popUpTo(Screen.TeacherHome.route) { inclusive = true }
-                }
-            }
+            TeacherHomeScreen(context = context, onLogout =  {
+                performLogout(navController)
+            })
         }
 
         composable(Screen.AddPlanning.route) { backStackEntry ->
             AddPlanningScreen(
                 context = LocalContext.current,
+                onLogout = {
+                    performLogout(navController)
+                },
                 onBackClick = {
                     navController.popBackStack()
                 },
@@ -81,6 +81,9 @@ fun AppNavigation(
         composable(Screen.AddCampus.route) { backStackEntry ->
             AddCampusScreen(
                 context = LocalContext.current,
+                onLogout = {
+                    performLogout(navController)
+                },
                 onBackClick = {
                     navController.popBackStack()
                 },
@@ -90,6 +93,9 @@ fun AppNavigation(
         composable(Screen.AddBuilding.route) { backStackEntry ->
             AddBuildingScreen(
                 context = LocalContext.current,
+                onLogout = {
+                    performLogout(navController)
+                },
                 onBackClick = {
                     navController.popBackStack()
                 },
@@ -99,12 +105,14 @@ fun AppNavigation(
         composable(Screen.AddSalle.route) { backStackEntry ->
             AddSalleScreen(
                 context = LocalContext.current,
+                onLogout = {
+                    performLogout(navController)
+                },
                 onBackClick = {
                     navController.popBackStack()
                 },
             )
         }
-
 
         composable(Screen.AddUser.route) {
             AddUserScreen(
@@ -112,11 +120,34 @@ fun AppNavigation(
                 navController = navController,
                 userService = Injection.provideUserService(),
                 onLogout = {
-                    // action de déconnexion
-                }
+                    performLogout(navController)
+                },
+            )
+        }
+
+        composable(Screen.ListUsers.route) {
+            val context = LocalContext.current
+            val userService = NetworkModule.userApi  // si tu utilises DI ou singleton
+            val userRepository = UserRepository(userService)
+
+            ListUsersScreen(
+                context = context,
+                navController = navController,
+                userRepository = userRepository,
+                userService = userService,
+                onLogout = {
+                    performLogout(navController)
+                },
             )
         }
 
 
     }
 }
+
+fun performLogout(navController: NavHostController) {
+    navController.navigate(Screen.Login.route) {
+        popUpTo(Screen.AdminHome.route) { inclusive = true }
+    }
+}
+

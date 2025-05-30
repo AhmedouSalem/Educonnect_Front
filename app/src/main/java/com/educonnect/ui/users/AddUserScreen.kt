@@ -8,6 +8,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import com.educonnect.model.UserCreationRequest
+import com.educonnect.repository.MentionService
+import com.educonnect.repository.ParcoursService
 import com.educonnect.repository.UserRepository
 import com.educonnect.ui.components.*
 import com.educonnect.ui.navigation.Screen
@@ -71,6 +73,13 @@ fun AddUserScreen(
             )
         }
     ) {
+
+        //Voir liste des listes
+        CustomAdminAddButton(
+            buttonText = "Voir liste des listes",
+            onAddClick = { navController.navigate(Screen.ListUsers.route) },
+        )
+
         CustomAdminAddPageTitleTextView(text = "Ajout d’un utilisateur")
 
         CustomAdminFormTextField(value = nom, label = "Nom") { nom = it }

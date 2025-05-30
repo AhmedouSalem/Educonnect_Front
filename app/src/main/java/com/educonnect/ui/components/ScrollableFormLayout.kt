@@ -22,7 +22,7 @@ import com.educonnect.ui.theme.OnPrimaryOpacity
 @Composable
 fun ScrollableFormLayout(
     modifier: Modifier = Modifier,
-    maxWidth: Dp = 600.dp,
+    maxWidth: Dp = 900.dp,
     contentPadding: Dp = 16.dp,
     topContent: @Composable (() -> Unit)? = null, // ✅ nouveau paramètre
     content: @Composable ColumnScope.() -> Unit
