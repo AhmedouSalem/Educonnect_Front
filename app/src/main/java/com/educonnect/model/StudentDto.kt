@@ -11,5 +11,6 @@ data class StudentDto(
     val parcours: String?,
     val niveau: String?, // spécifique Student
     val groupe: String?, // spécifique Student
-    val modeActuel: String? = "NORMAL" // facultatif, par défaut
+    val modeActuel: String? = "NORMAL", // facultatif, par défaut
+    val dateCreation: String? = null
 )

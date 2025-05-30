@@ -7,6 +7,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.educonnect.di.Injection
+import com.educonnect.di.NetworkModule
+import com.educonnect.repository.UserRepository
 import com.educonnect.ui.auth.ResponsiveLoginScreen
 import com.educonnect.ui.building.AddBuildingScreen
 import com.educonnect.ui.campus.AddCampusScreen
@@ -16,6 +18,7 @@ import com.educonnect.ui.home.TeacherHomeScreen
 import com.educonnect.ui.planning.AddPlanningScreen
 import com.educonnect.ui.salle.AddSalleScreen
 import com.educonnect.ui.users.AddUserScreen
+import com.educonnect.ui.users.ListUsersScreen
 
 @Composable
 fun AppNavigation(
@@ -115,5 +118,21 @@ fun AppNavigation(
                 }
             )
         }
+
+        composable(Screen.ListUsers.route) {
+            val context = LocalContext.current
+            val userService = NetworkModule.userApi  // si tu utilises DI ou singleton
+            val userRepository = UserRepository(userService)
+
+            ListUsersScreen(
+                context = context,
+                navController = navController,
+                userRepository = userRepository,
+                userService = userService,
+                onLogout = { /* TODO: définir la logique de déconnexion */ }
+            )
+        }
+
+
     }
 }

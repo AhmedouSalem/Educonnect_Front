@@ -9,4 +9,6 @@ interface ParcoursService {
 
     @GET("api/parcours/parcours/{mentionName}")
     suspend fun getParcoursByMention(@Path("mentionName") mentionName: String): Response<List<ParcoursDto>>
+
+
 }

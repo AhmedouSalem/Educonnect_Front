@@ -8,4 +8,7 @@ interface MentionService {
 
     @GET("api/mention/mentions")
     suspend fun getAllMentions(): Response<List<MentionDto>>
+
+
+
 }

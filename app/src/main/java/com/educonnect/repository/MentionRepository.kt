@@ -2,6 +2,7 @@ package com.educonnect.repository
 
 import android.util.Log
 import com.educonnect.di.NetworkModule
+import com.educonnect.model.MentionDto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
@@ -26,4 +27,5 @@ class MentionRepository {
             }
         }
     }
+
 }
