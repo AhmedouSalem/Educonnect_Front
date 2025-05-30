@@ -10,5 +10,6 @@ data class TeacherDto(
     val role: String = "PROFESSEUR",
     val parcours: String?,
     val specialite: String?,         // spécifique Teacher
-    val matieres: List<String>? = emptyList() // facultatif
+    val matieres: List<String>? = emptyList(), // facultatif
+    val dateCreation: String? = null
 )

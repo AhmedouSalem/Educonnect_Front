@@ -73,12 +73,6 @@ object NetworkModule {
     val planningService: PlanningService = retrofit.create(PlanningService::class.java)
 
     /**Instance de UserService*/
-    val userApi: UserService by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(UserService::class.java)
-    }
+    val userApi: UserService =retrofit.create(UserService::class.java)
 
 }

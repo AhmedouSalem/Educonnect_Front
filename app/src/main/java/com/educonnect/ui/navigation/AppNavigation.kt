@@ -7,15 +7,18 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.educonnect.di.Injection
+import com.educonnect.di.NetworkModule
+import com.educonnect.repository.UserRepository
 import com.educonnect.ui.auth.ResponsiveLoginScreen
 import com.educonnect.ui.building.AddBuildingScreen
 import com.educonnect.ui.campus.AddCampusScreen
-import com.educonnect.ui.users.AddUserScreen
 import com.educonnect.ui.home.AdminHomeScreen
 import com.educonnect.ui.home.StudentHomeScreen
 import com.educonnect.ui.home.TeacherHomeScreen
 import com.educonnect.ui.planning.AddPlanningScreen
 import com.educonnect.ui.salle.AddSalleScreen
+import com.educonnect.ui.users.AddUserScreen
+import com.educonnect.ui.users.ListUsersScreen
 
 @Composable
 fun AppNavigation(
@@ -35,10 +38,10 @@ fun AppNavigation(
                     "admin" -> navController.navigate(Screen.AdminHome.route) {
                         popUpTo(Screen.Login.route) { inclusive = true }
                     }
-                    "student" -> navController.navigate(Screen.StudentHome.route) {
+                    "etudiant" -> navController.navigate(Screen.StudentHome.route) {
                         popUpTo(Screen.Login.route) { inclusive = true }
                     }
-                    "teacher" -> navController.navigate(Screen.TeacherHome.route) {
+                    "professeur" -> navController.navigate(Screen.TeacherHome.route) {
                         popUpTo(Screen.Login.route) { inclusive = true }
                     }
                 }
@@ -105,7 +108,6 @@ fun AppNavigation(
             )
         }
 
-
         composable(Screen.AddUser.route) {
             AddUserScreen(
                 context = context, // ou LocalContext.current
@@ -114,6 +116,20 @@ fun AppNavigation(
                 onLogout = {
                     // action de déconnexion
                 }
+            )
+        }
+
+        composable(Screen.ListUsers.route) {
+            val context = LocalContext.current
+            val userService = NetworkModule.userApi  // si tu utilises DI ou singleton
+            val userRepository = UserRepository(userService)
+
+            ListUsersScreen(
+                context = context,
+                navController = navController,
+                userRepository = userRepository,
+                userService = userService,
+                onLogout = { /* TODO: définir la logique de déconnexion */ }
             )
         }
 

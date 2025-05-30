@@ -102,6 +102,11 @@ object Injection {
         )
     }
 
+//    /** Add User: Etudiant professeur*/
+//    fun provideUserService(): UserRepository {
+//        return UserRepository(NetworkModule.userApi)
+//    }
+
     /** Mention **/
     fun provideMentionRepository(): MentionRepository {
         return MentionRepository()

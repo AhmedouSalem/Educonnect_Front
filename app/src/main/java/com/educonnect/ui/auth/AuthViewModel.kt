@@ -36,7 +36,7 @@ class AuthViewModel(private val loginUseCase: LoginUseCase) : ViewModel() {
             response.collect { result ->
                 Log.d("AuthViewModel", "Result from loginUseCase: $result")
                 when (result.lowercase()) {
-                    "admin", "student", "teacher" -> {
+                    "admin", "etudiant", "professeur" -> {
                         Log.d("AuthViewModel", "User Role Set: $result")
                         _userRole.emit(result)  // Utiliser `emit` pour forcer l'émission
                     }
