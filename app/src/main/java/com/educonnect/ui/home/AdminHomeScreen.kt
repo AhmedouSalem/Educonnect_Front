@@ -99,6 +99,19 @@ fun AdminHomeScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
+                CustomAdminHomeAddButton(
+                    onClick = {
+                        navController.navigate(Screen.MentionScreen.route)
+                    },
+                    buttonText = stringResource(R.string.gerer_mention)
+                )
+                CustomAdminHomeAddButton(
+                    onClick = {
+                        navController.navigate(Screen.ParcoursScreen.route)
+                    },
+                    buttonText = stringResource(R.string.gerer_parcours)
+                )
+
                 Button(
                     onClick = { /* TODO: Ajouter Gestion des utilisateurs */
 
