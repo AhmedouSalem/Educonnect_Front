@@ -94,10 +94,11 @@ object Injection {
         return AddSalleUseCase(provideSalleRepository())
     }
 
-    fun provideSalleViewModel(): SalleViewModel {
+    fun provideSalleViewModel(context: Context): SalleViewModel {
         return SalleViewModel(
             provideAddSalleUseCase(),
-            provideBuildingRepository()
+            provideBuildingRepository(),
+            provideCampusRepository(context),
         )
     }
 

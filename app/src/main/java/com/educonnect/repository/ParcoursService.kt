@@ -7,6 +7,6 @@ import retrofit2.http.Path
 
 interface ParcoursService {
 
-    @GET("api/parcours/parcours/{mentionName}")
+    @GET("api/parcours/parcours/mention/{mentionName}")
     suspend fun getParcoursByMention(@Path("mentionName") mentionName: String): Response<List<ParcoursDto>>
 }
