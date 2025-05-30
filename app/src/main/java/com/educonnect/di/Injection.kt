@@ -13,7 +13,9 @@ import com.educonnect.repository.BuildingRepository
 import com.educonnect.repository.CampusRepository
 import com.educonnect.repository.CourseRepository
 import com.educonnect.repository.MentionRepository
+import com.educonnect.repository.MentionService
 import com.educonnect.repository.ParcoursRepository
+import com.educonnect.repository.ParcoursService
 import com.educonnect.repository.PlanningRepository
 import com.educonnect.repository.SalleRepository
 import com.educonnect.repository.UserRepository
@@ -107,15 +109,6 @@ object Injection {
 //        return UserRepository(NetworkModule.userApi)
 //    }
 
-    /** Mention **/
-    fun provideMentionRepository(): MentionRepository {
-        return MentionRepository()
-    }
-
-    /** Parcours **/
-    fun provideParcoursRepository(): ParcoursRepository {
-        return ParcoursRepository()
-    }
 
     /** Cours **/
     fun provideCourseRepository(): CourseRepository {
@@ -149,6 +142,40 @@ object Injection {
     fun provideUserService(): UserRepository {
         return UserRepository(NetworkModule.userApi)
     }
+
+    /** Gestion: Mention*/
+
+    fun provideMentionRepository(): MentionRepository {
+        return MentionRepository()
+    }
+
+    fun provideMentionService(): MentionService {
+        return NetworkModule.mentionService
+    }
+
+    /** Parcours */
+    fun provideParcoursRepository(): ParcoursRepository {
+        return ParcoursRepository()
+    }
+
+    fun provideParcoursService(): ParcoursService {
+        return NetworkModule.parcoursService
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

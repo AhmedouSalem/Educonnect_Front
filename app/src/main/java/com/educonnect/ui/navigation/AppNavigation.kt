@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.educonnect.di.Injection
+import com.educonnect.di.Injection.provideParcoursService
 import com.educonnect.di.NetworkModule
 import com.educonnect.repository.UserRepository
 import com.educonnect.ui.auth.ResponsiveLoginScreen
@@ -15,6 +16,9 @@ import com.educonnect.ui.campus.AddCampusScreen
 import com.educonnect.ui.home.AdminHomeScreen
 import com.educonnect.ui.home.StudentHomeScreen
 import com.educonnect.ui.home.TeacherHomeScreen
+import com.educonnect.ui.mentions.MentionScreen
+import com.educonnect.ui.navigation.Screen.MentionScreen
+import com.educonnect.ui.parcours.ParcoursScreen
 import com.educonnect.ui.planning.AddPlanningScreen
 import com.educonnect.ui.salle.AddSalleScreen
 import com.educonnect.ui.users.AddUserScreen
@@ -132,6 +136,32 @@ fun AppNavigation(
                 onLogout = { /* TODO: définir la logique de déconnexion */ }
             )
         }
+
+        composable(MentionScreen.route) {
+            MentionScreen(
+                context = context,
+                navController = navController,
+                mentionService = Injection.provideMentionService(),
+                onLogout = { /* ton callback logout ici */ }
+            )
+        }
+        // Ajoute de la route vers Parcours
+        composable(Screen.ParcoursScreen.route) {
+            ParcoursScreen(
+                context = context,
+                navController = navController,
+                parcoursService = Injection.provideParcoursService(),
+                mentionRepository = Injection.provideMentionRepository(), // <-- Attention à bien utiliser la bonne méthode
+                onLogout = {
+                    navController.navigate("login") {
+                        popUpTo("home") { inclusive = true }
+                    }
+                }
+            )
+        }
+
+
+
 
 
     }
