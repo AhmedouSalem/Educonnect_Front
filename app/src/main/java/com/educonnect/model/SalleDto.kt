@@ -5,5 +5,6 @@ data class SalleDto(
     val capacite: String,
     val type: String,
     val etage: String,
+    val campusNom: String,
     val batimentCode: String,
 )

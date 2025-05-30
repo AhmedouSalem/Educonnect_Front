@@ -9,8 +9,9 @@ class AddSalleUseCase(private val salleRepository: SalleRepository) {
         capacite: String,
         type: String,
         etage: String,
+        campusNom: String,
         batimentCode: String
     ): Boolean {
-        return salleRepository.addSalle(numero, capacite, type, etage, batimentCode)
+        return salleRepository.addSalle(numero, capacite, type, etage, campusNom, batimentCode)
     }
 }

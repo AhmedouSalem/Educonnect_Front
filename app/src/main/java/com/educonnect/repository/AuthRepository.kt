@@ -1,10 +1,8 @@
 package com.educonnect.repository
 
-import android.content.Context
 import android.util.Log
 import com.educonnect.di.NetworkModule
 import com.educonnect.model.AuthenticationRequest
-import com.educonnect.model.AuthenticationResponse
 import com.educonnect.utils.SessionManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -48,3 +46,4 @@ class AuthRepository(private val sessionManager: SessionManager) {
         }
     }
 }
+
