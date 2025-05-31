@@ -14,8 +14,8 @@ import com.educonnect.ui.auth.ResponsiveLoginScreen
 import com.educonnect.ui.building.AddBuildingScreen
 import com.educonnect.ui.campus.AddCampusScreen
 import com.educonnect.ui.home.AdminHomeScreen
-import com.educonnect.ui.home.StudentHomeScreen
-import com.educonnect.ui.home.TeacherHomeScreen
+import com.educonnect.ui.home.etudiant.StudentHomeScreen
+import com.educonnect.ui.home.teacher.TeacherHomeScreen
 import com.educonnect.ui.mentions.MentionScreen
 import com.educonnect.ui.navigation.Screen.MentionScreen
 import com.educonnect.ui.parcours.ParcoursScreen
@@ -61,7 +61,9 @@ fun AppNavigation(
         }
 
         composable(Screen.StudentHome.route) {
-            StudentHomeScreen(context = context) {
+            StudentHomeScreen(
+                context = context,
+                navController = navController) {
                 navController.navigate(Screen.Login.route) {
                     popUpTo(Screen.StudentHome.route) { inclusive = true }
                 }
@@ -69,7 +71,10 @@ fun AppNavigation(
         }
 
         composable(Screen.TeacherHome.route) {
-            TeacherHomeScreen(context = context) {
+            TeacherHomeScreen(
+                context = context,
+                navController = navController
+            ) {
                 navController.navigate(Screen.Login.route) {
                     popUpTo(Screen.TeacherHome.route) { inclusive = true }
                 }
@@ -150,7 +155,7 @@ fun AppNavigation(
             ParcoursScreen(
                 context = context,
                 navController = navController,
-                parcoursService = Injection.provideParcoursService(),
+                parcoursService = provideParcoursService(),
                 mentionRepository = Injection.provideMentionRepository(), // <-- Attention à bien utiliser la bonne méthode
                 onLogout = {
                     navController.navigate("login") {
