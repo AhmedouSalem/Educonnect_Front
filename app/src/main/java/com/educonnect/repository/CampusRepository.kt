@@ -41,7 +41,7 @@ class CampusRepository {
         }
     }
 
-
+    // Retourne une liste string des nom des campus
     suspend fun getAllCampus(): List<String> {
         return withContext(Dispatchers.IO) {
             try {
@@ -56,5 +56,45 @@ class CampusRepository {
             }
         }
     }
+
+    // Retourne une liste CampusDto
+    suspend fun getAllCampusDto(): List<CampusDto> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = campusService.getAllCampus()
+                if (response.isSuccessful) {
+                    response.body() ?: emptyList()
+                } else {
+                    emptyList()
+                }
+            } catch (e: Exception) {
+                emptyList()
+            }
+        }
+    }
+
+
+    suspend fun deleteCampus(nom: String): Boolean {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = campusService.deleteCampus(nom)
+                response.isSuccessful && response.body()?.message == "Campus supprimé avec succès"
+            } catch (e: Exception) {
+                false
+            }
+        }
+    }
+
+    suspend fun updateCampus(oldNom: String, newCampus: CampusDto): Boolean {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = campusService.updateCampus(oldNom, newCampus)
+                response.isSuccessful && response.body()?.message == "Campus modifié avec succès"
+            } catch (e: Exception) {
+                false
+            }
+        }
+    }
+
 
 }

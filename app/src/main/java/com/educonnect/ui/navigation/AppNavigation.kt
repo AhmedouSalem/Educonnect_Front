@@ -13,6 +13,7 @@ import com.educonnect.repository.UserRepository
 import com.educonnect.ui.auth.ResponsiveLoginScreen
 import com.educonnect.ui.building.AddBuildingScreen
 import com.educonnect.ui.campus.AddCampusScreen
+import com.educonnect.ui.campus.ListCampusScreen
 import com.educonnect.ui.home.AdminHomeScreen
 import com.educonnect.ui.home.StudentHomeScreen
 import com.educonnect.ui.home.TeacherHomeScreen
@@ -88,11 +89,28 @@ fun AppNavigation(
                 onLogout = {
                     performLogout(navController)
                 },
+                onNavigateToCampusList = {
+                    navController.navigate(Screen.ListCampus.route)
+                },
                 onBackClick = {
                     navController.popBackStack()
                 },
             )
         }
+
+        composable(Screen.ListCampus.route) {
+            ListCampusScreen(
+                context = context,
+                navController = navController,
+                onLogout = {
+                    performLogout(navController)
+                },
+                onNavigateToAddCampus = {
+                    navController.navigate(Screen.AddCampus.route)
+                }
+            )
+        }
+
 
         composable(Screen.AddBuilding.route) { backStackEntry ->
             AddBuildingScreen(

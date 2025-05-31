@@ -5,7 +5,9 @@ import com.educonnect.domain.admin.AddBuildingUseCase
 import com.educonnect.domain.admin.AddCampusUseCase
 import com.educonnect.domain.admin.AddPlanningUseCase
 import com.educonnect.domain.admin.AddSalleUseCase
+import com.educonnect.domain.admin.DeleteCampusUseCase
 import com.educonnect.domain.admin.GetAdminUseCase
+import com.educonnect.domain.admin.UpdateCampusUseCase
 import com.educonnect.domain.auth.LoginUseCase
 import com.educonnect.repository.AdminRepository
 import com.educonnect.repository.AuthRepository
@@ -68,6 +70,17 @@ object Injection {
         return CampusViewModel(provideAddCampusUseCase(context))
     }
 
+    // Use Case - DeleteCampus
+    fun provideDeleteCampusUseCase(context: Context): DeleteCampusUseCase {
+        return DeleteCampusUseCase(provideCampusRepository(context = context))
+    }
+
+    // Use Case - UpdateCampus
+    fun provideUpdateCampusUseCase(context: Context): UpdateCampusUseCase {
+        return UpdateCampusUseCase(provideCampusRepository(context = context))
+    }
+
+
     /** AddBuilding **/
     fun provideBuildingRepository(): BuildingRepository {
         return BuildingRepository()
@@ -100,11 +113,6 @@ object Injection {
             provideCampusRepository(context),
         )
     }
-
-//    /** Add User: Etudiant professeur*/
-//    fun provideUserService(): UserRepository {
-//        return UserRepository(NetworkModule.userApi)
-//    }
 
 
     /** Cours **/
@@ -158,21 +166,4 @@ object Injection {
     fun provideParcoursService(): ParcoursService {
         return NetworkModule.parcoursService
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

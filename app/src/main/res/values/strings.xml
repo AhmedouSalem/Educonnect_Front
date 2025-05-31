@@ -4,7 +4,7 @@
     <string name="ajouter_un_utilisateur">GÉRER LES UTILISATEURS</string>
     <string name="gerer_mention">GÉRER LES MENTIONS</string>
     <string name="gerer_parcours">GÉRER LES PARCOURS</string>
-    <string name="ajouter_un_planning">AJOUTER UN PLANNING</string>
+<!--    <string name="ajouter_un_planning">AJOUTER UN PLANNING</string>-->
     <string name="ajouter_un_planning">GÉRER LES PLANNINGS</string>
     <string name="ajout_d_un_planning">Ajout d\'un planning</string>
     <string name="ajouter_un_campus">GÉRER LES CAMPUS</string>
