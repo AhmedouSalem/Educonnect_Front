@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
+import com.educonnect.di.AppSession
 import com.educonnect.ui.navigation.AppNavigation
 import com.educonnect.ui.navigation.Screen
 import com.educonnect.ui.theme.Educonnect_FrontTheme
@@ -25,12 +26,15 @@ import kotlinx.coroutines.withContext
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Initialiser le singleton
+        AppSession.sessionManager = SessionManager(this);
         enableEdgeToEdge()
 
         setContent {
             Educonnect_FrontTheme {
                 val navController = rememberNavController()
-                val sessionManager = remember { SessionManager(this) }
+//                val sessionManager = remember { SessionManager(this) }
 
                 // State to track session status
                 var isSessionChecked by remember { mutableStateOf(false) }
@@ -39,7 +43,7 @@ class MainActivity : ComponentActivity() {
                 // Vérification de la session avant le rendu
                 LaunchedEffect(Unit) {
                     val userData = withContext(Dispatchers.IO) {
-                        sessionManager.getUserData()
+                        AppSession.sessionManager.getUserData()
                     }
 
                     startDestination = when (userData?.role?.lowercase()) {

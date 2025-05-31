@@ -34,9 +34,9 @@ import com.educonnect.ui.salle.SalleViewModel
 import com.educonnect.utils.SessionManager
 
 object Injection {
+    val sessionManager = AppSession.sessionManager
     /** Authentification **/
     fun provideAuthRepository(context: Context): AuthRepository {
-        val sessionManager = SessionManager(context)
         return AuthRepository(sessionManager)
     }
 
@@ -50,7 +50,6 @@ object Injection {
 
     /** AdminHomePage For Load NOM-PRENOM **/
     fun provideAdminRepository(context: Context): AdminRepository {
-        val sessionManager = SessionManager(context)
         return AdminRepository(sessionManager)
     }
 
@@ -59,13 +58,11 @@ object Injection {
     }
 
     fun provideHomeViewModel(context: Context): HomeViewModel {
-        val sessionManager = SessionManager(context)
         return HomeViewModel(provideGetAdminUseCase(context), sessionManager)
     }
 
     /** AddCampus **/
     fun provideCampusRepository(context: Context): CampusRepository {
-        // Tu pourras injecter ici un SessionManager ou un retrofitService si besoin plus tard
         return CampusRepository()
     }
 

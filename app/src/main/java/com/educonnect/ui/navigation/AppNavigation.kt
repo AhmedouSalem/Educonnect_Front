@@ -53,14 +53,13 @@ fun AppNavigation(
         }
 
         composable(Screen.AdminHome.route) {
-            AdminHomeScreen(context = context, navController= navController) {
-                navController.navigate(Screen.Login.route) {
-                    popUpTo(Screen.AdminHome.route) { inclusive = true }
-                }
-            }
+            AdminHomeScreen(context = context, navController= navController, onLogout =  {
+                performLogout(navController)
+            })
         }
 
         composable(Screen.StudentHome.route) {
+
             StudentHomeScreen(
                 context = context,
                 navController = navController) {
@@ -79,11 +78,15 @@ fun AppNavigation(
                     popUpTo(Screen.TeacherHome.route) { inclusive = true }
                 }
             }
+
         }
 
         composable(Screen.AddPlanning.route) { backStackEntry ->
             AddPlanningScreen(
                 context = LocalContext.current,
+                onLogout = {
+                    performLogout(navController)
+                },
                 onBackClick = {
                     navController.popBackStack()
                 },
@@ -93,6 +96,9 @@ fun AppNavigation(
         composable(Screen.AddCampus.route) { backStackEntry ->
             AddCampusScreen(
                 context = LocalContext.current,
+                onLogout = {
+                    performLogout(navController)
+                },
                 onBackClick = {
                     navController.popBackStack()
                 },
@@ -102,6 +108,9 @@ fun AppNavigation(
         composable(Screen.AddBuilding.route) { backStackEntry ->
             AddBuildingScreen(
                 context = LocalContext.current,
+                onLogout = {
+                    performLogout(navController)
+                },
                 onBackClick = {
                     navController.popBackStack()
                 },
@@ -111,6 +120,9 @@ fun AppNavigation(
         composable(Screen.AddSalle.route) { backStackEntry ->
             AddSalleScreen(
                 context = LocalContext.current,
+                onLogout = {
+                    performLogout(navController)
+                },
                 onBackClick = {
                     navController.popBackStack()
                 },
@@ -123,8 +135,8 @@ fun AppNavigation(
                 navController = navController,
                 userService = Injection.provideUserService(),
                 onLogout = {
-                    // action de déconnexion
-                }
+                    performLogout(navController)
+                },
             )
         }
 
@@ -138,7 +150,9 @@ fun AppNavigation(
                 navController = navController,
                 userRepository = userRepository,
                 userService = userService,
-                onLogout = { /* TODO: définir la logique de déconnexion */ }
+                onLogout = {
+                    performLogout(navController)
+                },
             )
         }
 
@@ -171,3 +185,10 @@ fun AppNavigation(
 
     }
 }
+
+fun performLogout(navController: NavHostController) {
+    navController.navigate(Screen.Login.route) {
+        popUpTo(Screen.AdminHome.route) { inclusive = true }
+    }
+}
+

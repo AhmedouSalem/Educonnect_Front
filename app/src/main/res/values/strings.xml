@@ -5,10 +5,11 @@
     <string name="gerer_mention">GÉRER LES MENTIONS</string>
     <string name="gerer_parcours">GÉRER LES PARCOURS</string>
     <string name="ajouter_un_planning">AJOUTER UN PLANNING</string>
+    <string name="ajouter_un_planning">GÉRER LES PLANNINGS</string>
     <string name="ajout_d_un_planning">Ajout d\'un planning</string>
-    <string name="ajouter_un_campus">AJOUTER UN CAMPUS</string>
-    <string name="ajouter_un_b_timent">AJOUTER UN BÂTIMENT</string>
-    <string name="ajouter_une_salle">AJOUTER UNE SALLE</string>
+    <string name="ajouter_un_campus">GÉRER LES CAMPUS</string>
+    <string name="ajouter_un_b_timent">GÉRER LES BÂTIMENTS</string>
+    <string name="ajouter_une_salle">GÉRER LES SALLES</string>
     <string name="ajout_d_un_campus">Ajout d’un campus</string>
     <string name="ajout_d_un_b_timent">Ajout d’un bâtiment</string>
     <string name="ajouter">AJOUTER</string>
@@ -20,4 +21,6 @@
     <string name="mes_cours">MES COURS</string>
     <string name="nouveau_cours">NOUVEAU COURS</string>
     <string name="mon_planning">MON PLANNING</string>
+    <string name="ajout_d_une_salle">Ajout d’une salle</string>
+
 </resources>
