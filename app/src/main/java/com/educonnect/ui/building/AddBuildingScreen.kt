@@ -25,6 +25,7 @@ fun AddBuildingScreen(
     context: Context,
     onLogout: () -> Unit,
     onBackClick: () -> Unit,
+    onBatimentList: () -> Unit,
     viewModel: BuildingViewModel = remember { Injection.provideBuildingViewModel(context) }
 ) {
     val code by viewModel.code.collectAsState()
@@ -54,7 +55,7 @@ fun AddBuildingScreen(
         //Voir liste des listes
         CustomAdminAddButton(
             buttonText = "Voir liste des listes",
-            onAddClick = { /** navController.navigate(Screen.ListUsers.route) **/ },
+            onAddClick = onBatimentList,
         )
 
         Spacer(modifier = Modifier.height(32.dp))

@@ -25,6 +25,7 @@ fun AddSalleScreen(
     context: Context,
     onLogout: () -> Unit,
     onBackClick: () -> Unit,
+    onSalleList: () -> Unit,
     viewModel: SalleViewModel = remember { Injection.provideSalleViewModel(context) }
 ) {
     val numero by viewModel.numero.collectAsState()
@@ -54,7 +55,7 @@ fun AddSalleScreen(
         //Voir liste des listes
         CustomAdminAddButton(
             buttonText = "Voir liste des listes",
-            onAddClick = { /** navController.navigate(Screen.ListUsers.route) **/ },
+            onAddClick = onSalleList,
         )
 
         Spacer(modifier = Modifier.height(32.dp))

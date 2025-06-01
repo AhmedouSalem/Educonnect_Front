@@ -12,17 +12,18 @@ import com.educonnect.di.NetworkModule
 import com.educonnect.repository.UserRepository
 import com.educonnect.ui.auth.ResponsiveLoginScreen
 import com.educonnect.ui.building.AddBuildingScreen
+import com.educonnect.ui.building.ListBuildingsScreen
 import com.educonnect.ui.campus.AddCampusScreen
-import com.educonnect.ui.course.AddCoursScreen
+import com.educonnect.ui.campus.ListCampusScreen
 import com.educonnect.ui.home.AdminHomeScreen
 import com.educonnect.ui.home.etudiant.StudentHomeScreen
 import com.educonnect.ui.home.teacher.TeacherHomeScreen
 import com.educonnect.ui.mentions.MentionScreen
-import com.educonnect.ui.navigation.Screen.AddCoursScreen
 import com.educonnect.ui.navigation.Screen.MentionScreen
 import com.educonnect.ui.parcours.ParcoursScreen
 import com.educonnect.ui.planning.AddPlanningScreen
 import com.educonnect.ui.salle.AddSalleScreen
+import com.educonnect.ui.salle.ListSallesScreen
 import com.educonnect.ui.users.AddUserScreen
 import com.educonnect.ui.users.ListUsersScreen
 
@@ -101,11 +102,28 @@ fun AppNavigation(
                 onLogout = {
                     performLogout(navController)
                 },
+                onNavigateToCampusList = {
+                    navController.navigate(Screen.ListCampus.route)
+                },
                 onBackClick = {
                     navController.popBackStack()
                 },
             )
         }
+
+        composable(Screen.ListCampus.route) {
+            ListCampusScreen(
+                context = context,
+                navController = navController,
+                onLogout = {
+                    performLogout(navController)
+                },
+                onNavigateToAddCampus = {
+                    navController.navigate(Screen.AddCampus.route)
+                }
+            )
+        }
+
 
         composable(Screen.AddBuilding.route) { backStackEntry ->
             AddBuildingScreen(
@@ -113,17 +131,52 @@ fun AppNavigation(
                 onLogout = {
                     performLogout(navController)
                 },
+                onBatimentList = {
+                    navController.navigate(Screen.ListBuildings.route)
+                },
                 onBackClick = {
                     navController.popBackStack()
                 },
             )
         }
 
+        composable(Screen.ListBuildings.route) {
+            ListBuildingsScreen(
+                context = context,
+                navController = navController,
+                onLogout = { performLogout(navController) },
+                onNavigateToAddBuilding = {
+                    navController.navigate(Screen.AddBuilding.route)
+                }
+            )
+        }
+
+
         composable(Screen.AddSalle.route) { backStackEntry ->
             AddSalleScreen(
                 context = LocalContext.current,
                 onLogout = {
                     performLogout(navController)
+                },
+                onSalleList = {
+                    navController.navigate(Screen.ListSalles.route)
+                },
+                onBackClick = {
+                    navController.popBackStack()
+                },
+            )
+        }
+
+        composable(Screen.ListSalles.route) {
+            ListSallesScreen(
+                context = context,
+                onLogout = {
+                    navController.navigate(Screen.Login.route) {
+                        popUpTo(Screen.AdminHome.route) { inclusive = true }
+                    }
+                },
+                onNavigateToAddSalle = {
+                    navController.navigate(Screen.AddSalle.route)
                 },
                 onBackClick = {
                     navController.popBackStack()
@@ -180,29 +233,6 @@ fun AppNavigation(
                 }
             )
         }
-
-        composable(Screen.AddCoursScreen.route) {
-            AddCoursScreen(
-                context = LocalContext.current,
-                navController = navController,
-                courseService = Injection.provideCourseService(),
-                parcoursService = Injection.provideParcoursService(),
-                userRepository = Injection.provideUserService(),
-                onLogout = {
-                    navController.navigate("login") {
-                        popUpTo("home") { inclusive = true }
-                    }
-                }
-            )
-        }
-
-
-
-
-
-
-
-
 
     }
 }
