@@ -19,4 +19,8 @@ sealed class Screen(val route: String) {
     object AddCoursScreen: Screen("add_cours_screen")
     object MyCoursesScreen : Screen("my_courses_screen")
 
+    object CourseDetailScreen : Screen("course_detail/{courseId}/{title}")
+    object AddResourceScreen: Screen("add_resource/{courseId}/{title}")
+
+
 }

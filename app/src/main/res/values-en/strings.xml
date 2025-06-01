@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Educonnect_Front</string>
+    <string name="welcome">Welcome</string>
+    <string name="ajouter_un_utilisateur">MANAGE USERS</string>
+    <string name="gerer_mention">MANAGE MENTIONS</string>
+    <string name="gerer_parcours">MANAGE COURSES</string>
+    <string name="ajouter_un_planning">MANAGE SCHEDULES</string>
+    <string name="ajout_d_un_planning">Add a schedule</string>
+    <string name="ajouter_un_campus">MANAGE CAMPUSES</string>
+    <string name="ajouter_un_b_timent">MANAGE BUILDINGS</string>
+    <string name="ajouter_une_salle">MANAGE ROOMS</string>
+    <string name="ajout_d_un_campus">Add a campus</string>
+    <string name="ajout_d_un_b_timent">Add a building</string>
+    <string name="ajouter">ADD</string>
+    <string name="num_ro">Number</string>
+    <string name="capacit">Capacity</string>
+    <string name="b_timent">Building</string>
+    <string name="type">Type</string>
+    <string name="tage">Floor</string>
+    <string name="mes_cours">MY COURSES</string>
+    <string name="nouveau_cours">NEW COURSE</string>
+    <string name="mon_planning">MY SCHEDULE</string>
+    <string name="ajout_d_une_salle">Add a room</string>
+</resources>

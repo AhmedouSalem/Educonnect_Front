@@ -98,7 +98,9 @@ fun MyCoursesScreen(
                 items(courseList) { course ->
                     CourseCard(course = course) {
                         Toast.makeText(context, "Voir ${course.intitule}", Toast.LENGTH_SHORT).show()
+                        navController.navigate("course_detail/${course.id}/${course.intitule}")
                     }
+
                 }
             }
         }
