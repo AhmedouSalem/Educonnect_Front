@@ -28,6 +28,23 @@ class CourseRepository {
         }
     }
 
+    suspend fun getCourses(): List<CourseDto> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = courseService.getCourses()
+                if (response.isSuccessful) {
+                    response.body() ?: emptyList()
+                } else {
+                    Log.e("CourseRepository", "Erreur API : ${response.code()}")
+                    emptyList()
+                }
+            } catch (e: IOException) {
+                Log.e("CourseRepository", "Erreur Réseau : ${e.message}")
+                emptyList()
+            }
+        }
+    }
+
     suspend fun addCourse(course: CourseDto): CourseDto {
         val response = courseService.addCourse(course)
         if (response.isSuccessful) return response.body()!!
