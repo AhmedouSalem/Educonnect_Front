@@ -18,6 +18,7 @@ class PlanningRepository {
                 val response = planningService.addPlanning(planningDto)
 
                 when {
+
                     response.isSuccessful && response.body()?.message == "Planning ajouté avec succès" -> {
                         Log.d("PlanningRepository", "Planning ajouté")
                         true

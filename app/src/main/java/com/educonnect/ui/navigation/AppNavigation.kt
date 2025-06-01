@@ -13,10 +13,12 @@ import com.educonnect.repository.UserRepository
 import com.educonnect.ui.auth.ResponsiveLoginScreen
 import com.educonnect.ui.building.AddBuildingScreen
 import com.educonnect.ui.campus.AddCampusScreen
+import com.educonnect.ui.course.AddCoursScreen
 import com.educonnect.ui.home.AdminHomeScreen
 import com.educonnect.ui.home.etudiant.StudentHomeScreen
 import com.educonnect.ui.home.teacher.TeacherHomeScreen
 import com.educonnect.ui.mentions.MentionScreen
+import com.educonnect.ui.navigation.Screen.AddCoursScreen
 import com.educonnect.ui.navigation.Screen.MentionScreen
 import com.educonnect.ui.parcours.ParcoursScreen
 import com.educonnect.ui.planning.AddPlanningScreen
@@ -178,6 +180,25 @@ fun AppNavigation(
                 }
             )
         }
+
+        composable(Screen.AddCoursScreen.route) {
+            AddCoursScreen(
+                context = LocalContext.current,
+                navController = navController,
+                courseService = Injection.provideCourseService(),
+                parcoursService = Injection.provideParcoursService(),
+                userRepository = Injection.provideUserService(),
+                onLogout = {
+                    navController.navigate("login") {
+                        popUpTo("home") { inclusive = true }
+                    }
+                }
+            )
+        }
+
+
+
+
 
 
 
