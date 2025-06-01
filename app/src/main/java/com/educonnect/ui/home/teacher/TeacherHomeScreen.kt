@@ -27,6 +27,7 @@ import androidx.navigation.NavController
 import com.educonnect.di.Injection.provideTeacherHomeViewModel
 import com.educonnect.ui.components.CustomAdminHomeAddButton
 import com.educonnect.ui.home.TeacherHomeViewModel
+import com.educonnect.ui.navigation.Screen
 
 
 @Composable
@@ -108,6 +109,7 @@ fun TeacherHomeScreen(
                     CustomAdminHomeAddButton(
                         onClick = {
                             //TODO VOIR MES COURS
+
                         },
                         buttonText = stringResource(R.string.mes_cours)
                     )
@@ -121,6 +123,7 @@ fun TeacherHomeScreen(
                     CustomAdminHomeAddButton(
                         onClick = {
                             //TODO AJOUT NOUVEAU COURS
+                            navController.navigate(Screen.AddCoursScreen.route)
                         },
                         buttonText = stringResource(R.string.nouveau_cours)
                     )
