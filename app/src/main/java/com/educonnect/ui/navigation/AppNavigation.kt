@@ -1,5 +1,6 @@
 package com.educonnect.ui.navigation
 
+import PlanningScreen
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -96,6 +97,10 @@ fun AppNavigation(
                     navController.popBackStack()
                 },
             )
+        }
+
+        composable(Screen.PlanningScreen.route) {
+            PlanningScreen()
         }
 
         composable(Screen.AddCampus.route) { backStackEntry ->

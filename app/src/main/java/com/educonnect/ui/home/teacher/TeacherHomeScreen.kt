@@ -127,6 +127,14 @@ fun TeacherHomeScreen(
                         },
                         buttonText = stringResource(R.string.nouveau_cours)
                     )
+
+                    CustomAdminHomeAddButton(
+                        onClick = {
+                            //TODO AJOUT NOUVEAU COURS
+                            navController.navigate(Screen.PlanningScreen.route)
+                        },
+                        buttonText = "PlanningScreen"
+                    )
                 }
 
 
