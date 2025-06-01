@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import com.educonnect.ui.theme.Secondary
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -15,7 +16,8 @@ fun CustomDropdown(
     label: String,
     items: List<String>,
     selectedItem: String,
-    onItemSelected: (String) -> Unit
+    onItemSelected: (String) -> Unit,
+    color: Color = Secondary
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -27,18 +29,18 @@ fun CustomDropdown(
             value = selectedItem.ifBlank { "" },
             onValueChange = {},
             readOnly = true,
-            label = { Text("$label *", color = Secondary) },
+            label = { Text("$label *", color = color) },
             trailingIcon = {
-                Icon(Icons.Default.ArrowDropDown, contentDescription = null, tint = Secondary)
+                Icon(Icons.Default.ArrowDropDown, contentDescription = null, tint = color)
             },
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = androidx.compose.ui.graphics.Color.Transparent,
                 unfocusedContainerColor = androidx.compose.ui.graphics.Color.Transparent,
-                cursorColor = Secondary,
-                focusedIndicatorColor = Secondary,
-                unfocusedIndicatorColor = Secondary,
-                focusedTextColor = Secondary,
-                unfocusedTextColor = Secondary,
+                cursorColor = color,
+                focusedIndicatorColor = color,
+                unfocusedIndicatorColor =  color,
+                focusedTextColor = color,
+                unfocusedTextColor = color,
             ),
             modifier = Modifier
                 .menuAnchor()

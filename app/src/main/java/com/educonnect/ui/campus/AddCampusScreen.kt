@@ -23,6 +23,7 @@ fun AddCampusScreen(
     context: Context,
     onLogout: () -> Unit,
     onBackClick: () -> Unit,
+    onNavigateToCampusList: () -> Unit,
     viewModel: CampusViewModel = remember { Injection.provideCampusViewModel(context) }
 ) {
     val nom by viewModel.nom.collectAsState()
@@ -49,7 +50,7 @@ fun AddCampusScreen(
         //Voir liste des listes
         CustomAdminAddButton(
             buttonText = "Voir liste des listes",
-            onAddClick = { /** navController.navigate(Screen.ListUsers.route) **/ },
+            onAddClick = onNavigateToCampusList,
         )
 
         Spacer(modifier = Modifier.height(32.dp))
