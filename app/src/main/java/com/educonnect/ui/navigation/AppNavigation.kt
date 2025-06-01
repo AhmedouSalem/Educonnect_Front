@@ -16,8 +16,8 @@ import com.educonnect.ui.building.ListBuildingsScreen
 import com.educonnect.ui.campus.AddCampusScreen
 import com.educonnect.ui.campus.ListCampusScreen
 import com.educonnect.ui.home.AdminHomeScreen
-import com.educonnect.ui.home.StudentHomeScreen
-import com.educonnect.ui.home.TeacherHomeScreen
+import com.educonnect.ui.home.etudiant.StudentHomeScreen
+import com.educonnect.ui.home.teacher.TeacherHomeScreen
 import com.educonnect.ui.mentions.MentionScreen
 import com.educonnect.ui.navigation.Screen.MentionScreen
 import com.educonnect.ui.parcours.ParcoursScreen
@@ -62,15 +62,26 @@ fun AppNavigation(
         }
 
         composable(Screen.StudentHome.route) {
-            StudentHomeScreen(context = context, onLogout =  {
-                performLogout(navController)
-            })
+
+            StudentHomeScreen(
+                context = context,
+                navController = navController) {
+                navController.navigate(Screen.Login.route) {
+                    popUpTo(Screen.StudentHome.route) { inclusive = true }
+                }
+            }
         }
 
         composable(Screen.TeacherHome.route) {
-            TeacherHomeScreen(context = context, onLogout =  {
-                performLogout(navController)
-            })
+            TeacherHomeScreen(
+                context = context,
+                navController = navController
+            ) {
+                navController.navigate(Screen.Login.route) {
+                    popUpTo(Screen.TeacherHome.route) { inclusive = true }
+                }
+            }
+
         }
 
         composable(Screen.AddPlanning.route) { backStackEntry ->

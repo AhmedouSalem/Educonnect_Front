@@ -18,5 +18,9 @@
     <string name="b_timent">Bâtiment</string>
     <string name="type">Type</string>
     <string name="tage">Étage</string>
+    <string name="mes_cours">MES COURS</string>
+    <string name="nouveau_cours">NOUVEAU COURS</string>
+    <string name="mon_planning">MON PLANNING</string>
     <string name="ajout_d_une_salle">Ajout d’une salle</string>
+
 </resources>

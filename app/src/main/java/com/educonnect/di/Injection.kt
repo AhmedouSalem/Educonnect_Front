@@ -14,6 +14,8 @@ import com.educonnect.domain.admin.UpdateBuildingUseCase
 import com.educonnect.domain.admin.UpdateCampusUseCase
 import com.educonnect.domain.admin.UpdateSalleUseCase
 import com.educonnect.domain.auth.LoginUseCase
+import com.educonnect.domain.etudiant.GetStudentUseCase
+import com.educonnect.domain.teacher.GetTeacherUseCase
 import com.educonnect.repository.AdminRepository
 import com.educonnect.repository.AuthRepository
 import com.educonnect.repository.BuildingRepository
@@ -30,6 +32,9 @@ import com.educonnect.ui.auth.AuthViewModel
 import com.educonnect.ui.building.BuildingViewModel
 import com.educonnect.ui.campus.CampusViewModel
 import com.educonnect.ui.home.HomeViewModel
+import com.educonnect.ui.home.TeacherHomeViewModel
+import com.educonnect.ui.home.etudiant.StudentHomeViewModel
+import com.educonnect.ui.home.teacher.TeacherHomeScreen
 import com.educonnect.ui.planning.PlanningViewModel
 import com.educonnect.ui.salle.SalleListViewModel
 import com.educonnect.ui.salle.SalleViewModel
@@ -192,4 +197,39 @@ object Injection {
     fun provideParcoursService(): ParcoursService {
         return NetworkModule.parcoursService
     }
+
+    /**Enseignant**/
+    fun provideTeacherHomeViewModel(context: Context): TeacherHomeViewModel {
+        return TeacherHomeViewModel(
+            getTeacherUseCase = GetTeacherUseCase(provideUserService()),
+            sessionManager = SessionManager(context)
+        )
+    }
+
+    /**Student**/
+    fun provideStudentHomeViewModel(context: Context): StudentHomeViewModel {
+        return StudentHomeViewModel(
+            getStudentUseCase = GetStudentUseCase(provideUserService()),
+            sessionManager = SessionManager(context)
+        )
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
