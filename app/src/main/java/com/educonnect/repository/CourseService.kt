@@ -14,7 +14,6 @@ interface CourseService {
     @GET("api/cours/cours/{parcoursCode}")
     suspend fun getCoursesByParcours(@Path("parcoursCode") parcoursCode: String): Response<List<CourseDto>>
 
-
     @GET("/api/courses/course")
     suspend fun getCourses(): Response<List<CourseDto>>
 

@@ -1,7 +1,6 @@
 package com.educonnect.di
 
 import android.content.Context
-import androidx.compose.runtime.Composable
 import com.educonnect.domain.admin.AddBuildingUseCase
 import com.educonnect.domain.admin.AddCampusUseCase
 import com.educonnect.domain.admin.AddPlanningUseCase
@@ -22,6 +21,7 @@ import com.educonnect.repository.AuthRepository
 import com.educonnect.repository.BuildingRepository
 import com.educonnect.repository.CampusRepository
 import com.educonnect.repository.CourseRepository
+import com.educonnect.repository.CourseService
 import com.educonnect.repository.MentionRepository
 import com.educonnect.repository.MentionService
 import com.educonnect.repository.ParcoursRepository
@@ -81,8 +81,6 @@ object Injection {
     fun provideCampusViewModel(context: Context): CampusViewModel {
         return CampusViewModel(provideAddCampusUseCase(context))
     }
-
-
 
     // Use Case - DeleteCampus
     fun provideDeleteCampusUseCase(context: Context): DeleteCampusUseCase {
@@ -149,82 +147,78 @@ object Injection {
 
 
 
-        /** Cours **/
-        fun provideCourseRepository(): CourseRepository {
-            return CourseRepository()
-        }
-
-        /** Planning **/
-        fun providePlanningRepository(): PlanningRepository {
-            return PlanningRepository()
-        }
-
-        fun provideAddPlanningUseCase(): AddPlanningUseCase {
-            return AddPlanningUseCase(providePlanningRepository())
-        }
-
-        /** Planning ViewModel **/
-        fun providePlanningViewModel(context: Context): PlanningViewModel {
-            return PlanningViewModel(
-                mentionRepository = provideMentionRepository(),
-                parcoursRepository = provideParcoursRepository(),
-                courseRepository = provideCourseRepository(),
-                campusRepository = provideCampusRepository(context),
-                batimentRepository = provideBuildingRepository(),
-                salleRepository = provideSalleRepository(),
-                addPlanningUseCase = provideAddPlanningUseCase()
-            )
-        }
-
-
-        /** Add User: Etudiant professeur*/
-        fun provideUserService(): UserRepository {
-            return UserRepository(NetworkModule.userApi)
-        }
-
-        /** Gestion: Mention*/
-
-        fun provideMentionRepository(): MentionRepository {
-            return MentionRepository()
-        }
-
-        fun provideMentionService(): MentionService {
-            return NetworkModule.mentionService
-        }
-
-        /** Parcours */
-        fun provideParcoursRepository(): ParcoursRepository {
-            return ParcoursRepository()
-        }
-
-        fun provideParcoursService(): ParcoursService {
-            return NetworkModule.parcoursService
-        }
-
-        /**Enseignant**/
-        fun provideTeacherHomeViewModel(context: Context): TeacherHomeViewModel {
-            return TeacherHomeViewModel(
-                getTeacherUseCase = GetTeacherUseCase(provideUserService()),
-                sessionManager = SessionManager(context)
-            )
-        }
-
-        /**Student**/
-        fun provideStudentHomeViewModel(context: Context): StudentHomeViewModel {
-            return StudentHomeViewModel(
-                getStudentUseCase = GetStudentUseCase(provideUserService()),
-                sessionManager = SessionManager(context)
-            )
-        }
+    /** Cours **/
+    fun provideCourseRepository(): CourseRepository {
+        return CourseRepository()
+    }
+    fun provideCourseService(): CourseService {
+        return NetworkModule.courseService
+    }
 
 
 
+    /** Planning **/
+    fun providePlanningRepository(): PlanningRepository {
+        return PlanningRepository()
+    }
+
+    fun provideAddPlanningUseCase(): AddPlanningUseCase {
+        return AddPlanningUseCase(providePlanningRepository())
+    }
+
+    /** Planning ViewModel **/
+    fun providePlanningViewModel(context: Context): PlanningViewModel {
+        return PlanningViewModel(
+            mentionRepository = provideMentionRepository(),
+            parcoursRepository = provideParcoursRepository(),
+            courseRepository = provideCourseRepository(),
+            campusRepository = provideCampusRepository(context),
+            batimentRepository = provideBuildingRepository(),
+            salleRepository = provideSalleRepository(),
+            addPlanningUseCase = provideAddPlanningUseCase()
+        )
+    }
 
 
+    /** Add User: Etudiant professeur*/
+    fun provideUserService(): UserRepository {
+        return UserRepository(NetworkModule.userApi)
+    }
 
+    /** Gestion: Mention*/
 
+    fun provideMentionRepository(): MentionRepository {
+        return MentionRepository()
+    }
 
+    fun provideMentionService(): MentionService {
+        return NetworkModule.mentionService
+    }
 
+    /** Parcours */
+    fun provideParcoursRepository(): ParcoursRepository {
+        return ParcoursRepository()
+    }
+
+    fun provideParcoursService(): ParcoursService {
+        return NetworkModule.parcoursService
+    }
+
+    /**Enseignant**/
+    fun provideTeacherHomeViewModel(context: Context): TeacherHomeViewModel {
+        return TeacherHomeViewModel(
+            getTeacherUseCase = GetTeacherUseCase(provideUserService()),
+            sessionManager = SessionManager(context)
+        )
+    }
+
+    /**Student**/
+    fun provideStudentHomeViewModel(context: Context): StudentHomeViewModel {
+        return StudentHomeViewModel(
+            getStudentUseCase = GetStudentUseCase(provideUserService()),
+            sessionManager = SessionManager(context)
+        )
+    }
 
 
 
