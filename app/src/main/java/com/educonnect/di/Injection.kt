@@ -5,9 +5,14 @@ import com.educonnect.domain.admin.AddBuildingUseCase
 import com.educonnect.domain.admin.AddCampusUseCase
 import com.educonnect.domain.admin.AddPlanningUseCase
 import com.educonnect.domain.admin.AddSalleUseCase
+import com.educonnect.domain.admin.DeleteBuildingUseCase
 import com.educonnect.domain.admin.DeleteCampusUseCase
+import com.educonnect.domain.admin.DeleteSalleUseCase
 import com.educonnect.domain.admin.GetAdminUseCase
+import com.educonnect.domain.admin.GetAllSallesUseCase
+import com.educonnect.domain.admin.UpdateBuildingUseCase
 import com.educonnect.domain.admin.UpdateCampusUseCase
+import com.educonnect.domain.admin.UpdateSalleUseCase
 import com.educonnect.domain.auth.LoginUseCase
 import com.educonnect.repository.AdminRepository
 import com.educonnect.repository.AuthRepository
@@ -26,6 +31,7 @@ import com.educonnect.ui.building.BuildingViewModel
 import com.educonnect.ui.campus.CampusViewModel
 import com.educonnect.ui.home.HomeViewModel
 import com.educonnect.ui.planning.PlanningViewModel
+import com.educonnect.ui.salle.SalleListViewModel
 import com.educonnect.ui.salle.SalleViewModel
 import com.educonnect.utils.SessionManager
 
@@ -97,6 +103,16 @@ object Injection {
         )
     }
 
+    // Use case – Update
+    fun provideUpdateBuildingUseCase(context: Context): UpdateBuildingUseCase {
+        return UpdateBuildingUseCase(provideBuildingRepository())
+    }
+
+    // Use case – Delete
+    fun provideDeleteBuildingUseCase(context: Context): DeleteBuildingUseCase {
+        return DeleteBuildingUseCase(provideBuildingRepository())
+    }
+
     /** AddSalle **/
     fun provideSalleRepository(): SalleRepository {
         return SalleRepository()
@@ -113,6 +129,16 @@ object Injection {
             provideCampusRepository(context),
         )
     }
+
+    fun provideSalleListViewModel(context: Context): SalleListViewModel {
+        val salleRepository = provideSalleRepository()
+        val getAllSallesUseCase = GetAllSallesUseCase(salleRepository)
+        val updateSalleUseCase = UpdateSalleUseCase(salleRepository)
+        val deleteSalleUseCase = DeleteSalleUseCase(salleRepository)
+
+        return SalleListViewModel(getAllSallesUseCase, updateSalleUseCase, deleteSalleUseCase)
+    }
+
 
 
     /** Cours **/

@@ -1,12 +1,9 @@
-package com.educonnect.ui.campus
+package com.educonnect.ui.building
 
 import CustomTopAppBar
 import android.content.Context
 import android.widget.Toast
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
@@ -21,36 +18,44 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.educonnect.di.Injection
-import com.educonnect.model.CampusDto
-import com.educonnect.ui.components.CampusEditDialog
+import com.educonnect.model.BatimentDto
+import com.educonnect.ui.components.BuildingEditDialog
 import com.educonnect.ui.components.ScrollableFormLayout
-import com.educonnect.ui.components.scrollbar
 import com.educonnect.ui.theme.Primary
 import kotlinx.coroutines.launch
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
+import com.educonnect.ui.components.scrollbar
+
 
 @Composable
-fun ListCampusScreen(
+fun ListBuildingsScreen(
     context: Context,
     navController: NavController,
     onLogout: () -> Unit,
-    onNavigateToAddCampus: () -> Unit,
-    viewModel: CampusViewModel = remember { Injection.provideCampusViewModel(context) }
+    onNavigateToAddBuilding: () -> Unit,
+    viewModel: BuildingViewModel = remember { Injection.provideBuildingViewModel(context) }
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val campusList = remember { mutableStateListOf<CampusDto>() }
-    var showDialog by remember { mutableStateOf(false) }
-    var editingCampus by remember { mutableStateOf<CampusDto?>(null) }
+    val buildingList = remember { mutableStateListOf<BatimentDto>() }
+
+    var showEditDialog by remember { mutableStateOf(false) }
+    var editingBuilding by remember { mutableStateOf<BatimentDto?>(null) }
+    var oldBuilding by remember { mutableStateOf<BatimentDto?>(null) }
+
     var showDeleteDialog by remember { mutableStateOf(false) }
-    var campusToDelete by remember { mutableStateOf<CampusDto?>(null) }
+    var buildingToDelete by remember { mutableStateOf<BatimentDto?>(null) }
+
+    val campusList by viewModel.campusList.collectAsState()
+
     val scrollState = rememberScrollState()
 
-
-    // Simule un chargement initial
+    // Initial load
     LaunchedEffect(Unit) {
         coroutineScope.launch {
-            val result = Injection.provideCampusRepository(context).getAllCampusDto()
-            campusList.clear()
-            campusList.addAll(result)
+            val buildings = Injection.provideBuildingRepository().getAllBuildings()
+            buildingList.clear()
+            buildingList.addAll(buildings)
         }
     }
 
@@ -64,7 +69,6 @@ fun ListCampusScreen(
             )
         }
     ) {
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -72,13 +76,13 @@ fun ListCampusScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Liste des campus",
+                text = "Liste des bâtiments",
                 fontSize = 24.sp,
                 modifier = Modifier.weight(1f),
                 color = Primary,
                 textAlign = TextAlign.Center
             )
-            IconButton(onClick = { onNavigateToAddCampus() }) {
+            IconButton(onClick = { onNavigateToAddBuilding() }) {
                 Icon(Icons.Default.Add, contentDescription = "Ajouter", tint = Color.Black)
             }
         }
@@ -92,21 +96,27 @@ fun ListCampusScreen(
                 .scrollbar(scrollState)
         ) {
             Column {
-                // En-têtes
+                // En-têtes du tableau
                 Row(
                     modifier = Modifier
                         .padding(vertical = 8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        "Nom",
-                        modifier = Modifier.width(140.dp),
+                        "codeB",
+                        modifier = Modifier.width(120.dp),
                         fontSize = 16.sp,
                         color = Primary
                     )
                     Text(
-                        "Ville",
-                        modifier = Modifier.width(140.dp),
+                        "AnnéeC",
+                        modifier = Modifier.width(100.dp),
+                        fontSize = 16.sp,
+                        color = Primary
+                    )
+                    Text(
+                        "Campus",
+                        modifier = Modifier.width(120.dp),
                         fontSize = 16.sp,
                         color = Primary
                     )
@@ -118,22 +128,24 @@ fun ListCampusScreen(
                     )
                 }
 
-                // Lignes
-                campusList.forEach { campus ->
+                buildingList.forEach { building ->
                     Row(
-                        modifier = Modifier.padding(vertical = 8.dp),
+                        modifier = Modifier
+                            .padding(vertical = 8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(campus.nom, modifier = Modifier.width(140.dp))
-                        Text(campus.ville, modifier = Modifier.width(140.dp))
+                        Text(building.codeB, modifier = Modifier.width(120.dp))
+                        Text(building.anneC, modifier = Modifier.width(100.dp))
+                        Text(building.campusNom, modifier = Modifier.width(120.dp))
 
                         Row(
                             modifier = Modifier.width(100.dp),
                             horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End)
                         ) {
                             IconButton(onClick = {
-                                editingCampus = campus
-                                showDialog = true
+                                editingBuilding = building
+                                oldBuilding = building
+                                showEditDialog = true
                             }) {
                                 Icon(
                                     Icons.Default.Edit,
@@ -141,9 +153,8 @@ fun ListCampusScreen(
                                     tint = Color.Black
                                 )
                             }
-
                             IconButton(onClick = {
-                                campusToDelete = campus
+                                buildingToDelete = building
                                 showDeleteDialog = true
                             }) {
                                 Icon(
@@ -158,46 +169,48 @@ fun ListCampusScreen(
             }
         }
 
-        if (showDialog && editingCampus != null) {
-            CampusEditDialog(
-                initialCampus = editingCampus!!,
-                onDismiss = { showDialog = false },
-                onConfirm = { updatedCampus ->
+        // 🔧 Dialog de modification
+        if (showEditDialog && editingBuilding != null) {
+            BuildingEditDialog(
+                initialBatiment = editingBuilding!!,
+                campusOptions = campusList,
+                onDismiss = { showEditDialog = false },
+                onConfirm = { updated ->
                     coroutineScope.launch {
-                        val updateUseCase = Injection.provideUpdateCampusUseCase(context)
-                        val success = updateUseCase(editingCampus!!.nom, updatedCampus)
+                        val success = Injection.provideUpdateBuildingUseCase(context)(
+                            oldBuilding!!,
+                            updated
+                        )
                         if (success) {
-                            campusList.remove(editingCampus)
-                            campusList.add(updatedCampus)
-                            Toast.makeText(context, "Campus modifié", Toast.LENGTH_SHORT).show()
+                            buildingList.remove(editingBuilding)
+                            buildingList.add(updated)
+                            Toast.makeText(context, "Bâtiment modifié", Toast.LENGTH_SHORT).show()
                         } else {
                             Toast.makeText(context, "Erreur de modification", Toast.LENGTH_SHORT)
                                 .show()
                         }
-                        showDialog = false
+                        showEditDialog = false
                     }
                 }
             )
         }
 
-        if (showDeleteDialog && campusToDelete != null) {
+        // Confirmation de suppression
+        if (showDeleteDialog && buildingToDelete != null) {
             AlertDialog(
                 onDismissRequest = { showDeleteDialog = false },
                 confirmButton = {
                     Button(onClick = {
                         coroutineScope.launch {
-                            val deleteUseCase = Injection.provideDeleteCampusUseCase(context)
-                            val success = deleteUseCase(campusToDelete!!.nom)
+                            val success =
+                                Injection.provideDeleteBuildingUseCase(context)(buildingToDelete!!.campusNom,buildingToDelete!!.codeB)
                             if (success) {
-                                campusList.remove(campusToDelete)
-                                Toast.makeText(context, "Campus supprimé", Toast.LENGTH_SHORT)
+                                buildingList.remove(buildingToDelete)
+                                Toast.makeText(context, "Bâtiment supprimé", Toast.LENGTH_SHORT)
                                     .show()
                             } else {
-                                Toast.makeText(
-                                    context,
-                                    "Erreur lors de la suppression",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                Toast.makeText(context, "Erreur suppression", Toast.LENGTH_SHORT)
+                                    .show()
                             }
                             showDeleteDialog = false
                         }
@@ -211,10 +224,9 @@ fun ListCampusScreen(
                     }
                 },
                 title = { Text("Confirmer la suppression") },
-                text = { Text("Êtes-vous sûr de vouloir supprimer le campus « ${campusToDelete?.nom} » ?") }
+                text = { Text("Supprimer le bâtiment « ${buildingToDelete?.codeB} » ?") }
             )
         }
-
-
     }
 }
+

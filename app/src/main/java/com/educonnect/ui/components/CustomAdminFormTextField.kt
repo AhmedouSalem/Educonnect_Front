@@ -13,21 +13,22 @@ import com.educonnect.ui.theme.Secondary
 fun CustomAdminFormTextField(
     value: String,
     label: String,
-    onValueChange: (String) -> Unit
+    color: Color = Secondary,
+    onValueChange: (String) -> Unit,
 ) {
     TextField(
         value = value,
         onValueChange = onValueChange,
-        label = { Text("$label *", color = Secondary) },
+        label = { Text("$label *", color = color) },
         singleLine = true,
         colors = TextFieldDefaults.colors(
             focusedContainerColor = Color.Transparent,
             unfocusedContainerColor = Color.Transparent,
-            cursorColor = Secondary,
-            focusedIndicatorColor = Secondary,
-            unfocusedIndicatorColor = Secondary,
-            focusedTextColor = Secondary,
-            unfocusedTextColor = Secondary,
+            cursorColor = color,
+            focusedIndicatorColor = color,
+            unfocusedIndicatorColor = color,
+            focusedTextColor = color,
+            unfocusedTextColor = color,
         ),
         modifier = Modifier.fillMaxWidth()
     )

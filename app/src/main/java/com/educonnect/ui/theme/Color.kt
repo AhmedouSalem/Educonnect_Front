@@ -13,3 +13,4 @@ val Pink40 = Color(0xFF7D5260)
 val Primary = Color(0xFFFFCD29)
 val Secondary = Color.White
 val OnPrimaryOpacity = Color(0xFFD9D9D9)
+val BlackColor = Color(0xFF000000)

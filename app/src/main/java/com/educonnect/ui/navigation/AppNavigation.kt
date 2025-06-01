@@ -12,6 +12,7 @@ import com.educonnect.di.NetworkModule
 import com.educonnect.repository.UserRepository
 import com.educonnect.ui.auth.ResponsiveLoginScreen
 import com.educonnect.ui.building.AddBuildingScreen
+import com.educonnect.ui.building.ListBuildingsScreen
 import com.educonnect.ui.campus.AddCampusScreen
 import com.educonnect.ui.campus.ListCampusScreen
 import com.educonnect.ui.home.AdminHomeScreen
@@ -22,6 +23,7 @@ import com.educonnect.ui.navigation.Screen.MentionScreen
 import com.educonnect.ui.parcours.ParcoursScreen
 import com.educonnect.ui.planning.AddPlanningScreen
 import com.educonnect.ui.salle.AddSalleScreen
+import com.educonnect.ui.salle.ListSallesScreen
 import com.educonnect.ui.users.AddUserScreen
 import com.educonnect.ui.users.ListUsersScreen
 
@@ -118,11 +120,26 @@ fun AppNavigation(
                 onLogout = {
                     performLogout(navController)
                 },
+                onBatimentList = {
+                    navController.navigate(Screen.ListBuildings.route)
+                },
                 onBackClick = {
                     navController.popBackStack()
                 },
             )
         }
+
+        composable(Screen.ListBuildings.route) {
+            ListBuildingsScreen(
+                context = context,
+                navController = navController,
+                onLogout = { performLogout(navController) },
+                onNavigateToAddBuilding = {
+                    navController.navigate(Screen.AddBuilding.route)
+                }
+            )
+        }
+
 
         composable(Screen.AddSalle.route) { backStackEntry ->
             AddSalleScreen(
@@ -130,11 +147,32 @@ fun AppNavigation(
                 onLogout = {
                     performLogout(navController)
                 },
+                onSalleList = {
+                    navController.navigate(Screen.ListSalles.route)
+                },
                 onBackClick = {
                     navController.popBackStack()
                 },
             )
         }
+
+        composable(Screen.ListSalles.route) {
+            ListSallesScreen(
+                context = context,
+                onLogout = {
+                    navController.navigate(Screen.Login.route) {
+                        popUpTo(Screen.AdminHome.route) { inclusive = true }
+                    }
+                },
+                onNavigateToAddSalle = {
+                    navController.navigate(Screen.AddSalle.route)
+                },
+                onBackClick = {
+                    navController.popBackStack()
+                },
+            )
+        }
+
 
         composable(Screen.AddUser.route) {
             AddUserScreen(
@@ -176,7 +214,7 @@ fun AppNavigation(
             ParcoursScreen(
                 context = context,
                 navController = navController,
-                parcoursService = Injection.provideParcoursService(),
+                parcoursService = provideParcoursService(),
                 mentionRepository = Injection.provideMentionRepository(), // <-- Attention à bien utiliser la bonne méthode
                 onLogout = {
                     navController.navigate("login") {
