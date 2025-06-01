@@ -99,8 +99,15 @@ fun AppNavigation(
             )
         }
 
-        composable(Screen.PlanningScreen.route) {
-            PlanningScreen()
+        composable(Screen.PlanningScreen.route) { backStackEntry ->
+            PlanningScreen(
+                onBackToHome = {
+                    navController.popBackStack()
+                },
+                onLogout = {
+                    performLogout(navController)
+                }
+            )
         }
 
         composable(Screen.AddCampus.route) { backStackEntry ->

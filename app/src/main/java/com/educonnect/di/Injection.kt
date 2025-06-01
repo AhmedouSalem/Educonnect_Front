@@ -37,6 +37,7 @@ import com.educonnect.ui.home.TeacherHomeViewModel
 import com.educonnect.ui.home.etudiant.StudentHomeViewModel
 import com.educonnect.ui.home.teacher.TeacherHomeScreen
 import com.educonnect.ui.planning.PlanningViewModel
+import com.educonnect.ui.planning.teacher.TeacherPlanningViewModel
 import com.educonnect.ui.salle.SalleListViewModel
 import com.educonnect.ui.salle.SalleViewModel
 import com.educonnect.utils.SessionManager
@@ -220,6 +221,11 @@ object Injection {
         )
     }
 
+    fun provideTeacherPlanningViewModel(): TeacherPlanningViewModel {
+        return TeacherPlanningViewModel(
+            planningRepository = providePlanningRepository()
+        )
+    }
 
 
 
