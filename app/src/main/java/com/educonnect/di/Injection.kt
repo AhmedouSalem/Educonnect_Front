@@ -27,6 +27,7 @@ import com.educonnect.repository.MentionService
 import com.educonnect.repository.ParcoursRepository
 import com.educonnect.repository.ParcoursService
 import com.educonnect.repository.PlanningRepository
+import com.educonnect.repository.ResourceRepository
 import com.educonnect.repository.SalleRepository
 import com.educonnect.repository.UserRepository
 import com.educonnect.ui.auth.AuthViewModel
@@ -220,6 +221,10 @@ object Injection {
         )
     }
 
+    /**Ressource**/
+    fun provideResourceRepository(): ResourceRepository {
+        return NetworkModule.provideResourceRepository()
+    }
 
 
 

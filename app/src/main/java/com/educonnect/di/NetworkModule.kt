@@ -9,6 +9,8 @@ import com.educonnect.repository.MentionRepository
 import com.educonnect.repository.MentionService
 import com.educonnect.repository.ParcoursService
 import com.educonnect.repository.PlanningService
+import com.educonnect.repository.ResourceRepository
+import com.educonnect.repository.ResourceService
 import com.educonnect.repository.SalleService
 import com.educonnect.repository.UserService
 import okhttp3.OkHttpClient
@@ -81,6 +83,14 @@ object NetworkModule {
     val parcoursService: ParcoursService=retrofit.create(ParcoursService::class.java)
 
 
+    /**Ressource**/
+
+    val resourceService: ResourceService by lazy {
+        retrofit.create(ResourceService::class.java)
+    }
+    fun provideResourceRepository(): ResourceRepository {
+        return ResourceRepository(resourceService)
+    }
 
 
 

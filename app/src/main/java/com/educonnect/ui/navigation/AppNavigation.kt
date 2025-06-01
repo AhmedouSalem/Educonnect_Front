@@ -16,15 +16,19 @@ import com.educonnect.ui.building.ListBuildingsScreen
 import com.educonnect.ui.campus.AddCampusScreen
 import com.educonnect.ui.course.AddCoursScreen
 import com.educonnect.ui.campus.ListCampusScreen
+import com.educonnect.ui.course.CourseDetailScreen
 import com.educonnect.ui.course.MyCoursesScreen
 import com.educonnect.ui.home.AdminHomeScreen
 import com.educonnect.ui.home.etudiant.StudentHomeScreen
 import com.educonnect.ui.home.teacher.TeacherHomeScreen
 import com.educonnect.ui.mentions.MentionScreen
 import com.educonnect.ui.navigation.Screen.AddCoursScreen
+import com.educonnect.ui.navigation.Screen.AddResourceScreen
+import com.educonnect.ui.navigation.Screen.CourseDetailScreen
 import com.educonnect.ui.navigation.Screen.MentionScreen
 import com.educonnect.ui.parcours.ParcoursScreen
 import com.educonnect.ui.planning.AddPlanningScreen
+import com.educonnect.ui.resource.AddResourceScreen
 import com.educonnect.ui.salle.AddSalleScreen
 import com.educonnect.ui.salle.ListSallesScreen
 import com.educonnect.ui.users.AddUserScreen
@@ -260,6 +264,31 @@ fun AppNavigation(
 
             )
         }
+
+        /**Détails Cours**/
+        composable("course_detail/{courseId}/{title}") { backStackEntry ->
+            val courseId = backStackEntry.arguments?.getString("courseId")?.toLongOrNull() ?: return@composable
+            val courseTitle = backStackEntry.arguments?.getString("title") ?: "Cours"
+            CourseDetailScreen(
+                courseId = courseId,
+                courseTitle = courseTitle,
+                navController = navController,
+                resourceRepository = Injection.provideResourceRepository()
+            )
+        }
+        /**Add resource**/
+        composable("add_resource/{courseId}/{title}") { backStackEntry ->
+            val courseId = backStackEntry.arguments?.getString("courseId")?.toLong() ?: return@composable
+            val title = backStackEntry.arguments?.getString("title") ?: "Cours"
+            AddResourceScreen(
+                courseId = courseId,
+                courseTitle = title,
+                navController = navController,
+                resourceRepository = Injection.provideResourceRepository()
+            )
+        }
+
+
 
 
 
