@@ -57,7 +57,7 @@ fun AddCoursScreen(
                         courseList.clear()
                         response.body()?.let { courseList.addAll(it) }
                     } else {
-                        Toast.makeText(context, "Erreur chargement : ${response.code()}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Erreur chargement : ${response.code()} "+" body: ${response.body()} ", Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: Exception) {
                     Log.e("AddCoursScreen", "Erreur chargement", e)
