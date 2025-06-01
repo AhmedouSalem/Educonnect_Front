@@ -16,6 +16,7 @@ import com.educonnect.ui.building.ListBuildingsScreen
 import com.educonnect.ui.campus.AddCampusScreen
 import com.educonnect.ui.course.AddCoursScreen
 import com.educonnect.ui.campus.ListCampusScreen
+import com.educonnect.ui.course.MyCoursesScreen
 import com.educonnect.ui.home.AdminHomeScreen
 import com.educonnect.ui.home.etudiant.StudentHomeScreen
 import com.educonnect.ui.home.teacher.TeacherHomeScreen
@@ -236,12 +237,12 @@ fun AppNavigation(
             )
         }
 
-        composable(Screen.AddCoursScreen.route) {
+        composable(AddCoursScreen.route) {
             AddCoursScreen(
                 context = LocalContext.current,
                 navController = navController,
                 courseService = Injection.provideCourseService(),
-                parcoursService = Injection.provideParcoursService(),
+                parcoursService = provideParcoursService(),
                 userRepository = Injection.provideUserService(),
                 onLogout = {
                     navController.navigate("login") {
@@ -250,6 +251,16 @@ fun AppNavigation(
                 }
             )
         }
+
+
+        composable(Screen.MyCoursesScreen.route) {
+            MyCoursesScreen(
+                navController = navController,
+                courseRepository = Injection.provideCourseRepository(),
+
+            )
+        }
+
 
 
     }

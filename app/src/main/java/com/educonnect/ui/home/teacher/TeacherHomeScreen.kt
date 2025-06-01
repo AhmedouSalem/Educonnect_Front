@@ -110,6 +110,7 @@ fun TeacherHomeScreen(
                         onClick = {
                             //TODO VOIR MES COURS
 
+                            navController.navigate(Screen.MyCoursesScreen.route)
                         },
                         buttonText = stringResource(R.string.mes_cours)
                     )
