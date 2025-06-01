@@ -11,4 +11,5 @@ data class PlanningDto(
     val heureDebut: String,
     val heureFin: String,
     val date: String
+
 )

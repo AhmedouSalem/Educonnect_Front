@@ -21,6 +21,7 @@ import com.educonnect.repository.AuthRepository
 import com.educonnect.repository.BuildingRepository
 import com.educonnect.repository.CampusRepository
 import com.educonnect.repository.CourseRepository
+import com.educonnect.repository.CourseService
 import com.educonnect.repository.MentionRepository
 import com.educonnect.repository.MentionService
 import com.educonnect.repository.ParcoursRepository
@@ -150,6 +151,11 @@ object Injection {
     fun provideCourseRepository(): CourseRepository {
         return CourseRepository()
     }
+    fun provideCourseService(): CourseService {
+        return NetworkModule.courseService
+    }
+
+
 
     /** Planning **/
     fun providePlanningRepository(): PlanningRepository {
