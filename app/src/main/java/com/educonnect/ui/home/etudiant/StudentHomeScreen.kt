@@ -116,6 +116,8 @@ fun StudentHomeScreen(
                 CustomAdminHomeAddButton(
                     onClick = {
                         //TODO VOIR MON PLANNING
+                        navController.navigate(Screen.PlanningScreen.route)
+
                     },
                     buttonText = stringResource(R.string.mon_planning)
                 )

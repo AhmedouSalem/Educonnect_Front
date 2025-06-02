@@ -1,7 +1,12 @@
 package com.educonnect.repository
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import com.educonnect.di.NetworkModule
+import com.educonnect.domain.teacher.GetTeacherUseCase
+import com.educonnect.domain.teacher.toCoursUiModel
+import com.educonnect.model.CoursUiModel
 import com.educonnect.model.PlanningDto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -47,4 +52,10 @@ class PlanningRepository {
             }
         }
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    suspend fun getPlanningForTeacher(id: Long): List<CoursUiModel> {
+        return planningService.getPlanningForTeacher(id).map {  it.toCoursUiModel() }
+    }
 }
+

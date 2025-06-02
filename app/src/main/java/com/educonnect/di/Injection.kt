@@ -37,6 +37,7 @@ import com.educonnect.ui.home.HomeViewModel
 import com.educonnect.ui.home.TeacherHomeViewModel
 import com.educonnect.ui.home.etudiant.StudentHomeViewModel
 import com.educonnect.ui.home.teacher.TeacherHomeScreen
+import com.educonnect.ui.home.teacher.planning.TeacherPlanningViewModel
 import com.educonnect.ui.planning.PlanningViewModel
 import com.educonnect.ui.salle.SalleListViewModel
 import com.educonnect.ui.salle.SalleViewModel
@@ -180,6 +181,12 @@ object Injection {
         )
     }
 
+    fun provideTeacherPlanningViewModel(): TeacherPlanningViewModel {
+        return TeacherPlanningViewModel(
+            planningRepository = providePlanningRepository()
+        )
+    }
+
 
     /** Add User: Etudiant professeur*/
     fun provideUserService(): UserRepository {
@@ -225,18 +232,6 @@ object Injection {
     fun provideResourceRepository(): ResourceRepository {
         return NetworkModule.provideResourceRepository()
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
