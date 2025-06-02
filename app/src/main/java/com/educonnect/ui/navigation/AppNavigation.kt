@@ -21,6 +21,7 @@ import com.educonnect.ui.course.MyCoursesScreen
 import com.educonnect.ui.home.AdminHomeScreen
 import com.educonnect.ui.home.etudiant.StudentHomeScreen
 import com.educonnect.ui.home.teacher.TeacherHomeScreen
+import com.educonnect.ui.home.teacher.planning.PlanningScreen
 import com.educonnect.ui.mentions.MentionScreen
 import com.educonnect.ui.navigation.Screen.AddCoursScreen
 import com.educonnect.ui.navigation.Screen.AddResourceScreen
@@ -289,6 +290,16 @@ fun AppNavigation(
         }
 
 
+        composable(Screen.PlanningScreen.route) { backStackEntry ->
+            PlanningScreen(
+                onBackToHome = {
+                    navController.popBackStack()
+                },
+                onLogout = {
+                    performLogout(navController)
+                }
+            )
+        }
 
 
 
