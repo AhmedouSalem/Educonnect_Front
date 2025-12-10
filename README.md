@@ -48,14 +48,15 @@ des plannings et des ressources pédagogiques, avec une gestion des rôles et un
 
 ## 📷 Captures d’écran
 
-| Fonctionnalité | Capture |
-|---------------|---------|
-| Authentification | ![](screenshots/screen-01.png) |
-| Tableau de bord | ![](screenshots/screen-02.png) |
-| Gestion des utilisateurs | ![](screenshots/screen-04.png) |
-| Gestion des campus | ![](screenshots/screen-05.png) |
-| Gestion des salles | ![](screenshots/screen-07.png) |
-| Planning | ![](screenshots/screen-08.png) |
+| Fonctionnalité       | Capture                        |
+|----------------------|--------------------------------|
+| Authentification     | ![](screenshots/screen-01.png) |
+| Tableau de bord      | ![](screenshots/screen-02.png) |
+| Gestion des parcours | ![](screenshots/screen-04.png) |
+| Gestion des parcours | ![](screenshots/screen-05.png) |
+| Gestion des Niveaux  | ![](screenshots/screen-07.png) |
+| Utilisateurs         | ![](screenshots/screen-08.png) |
+| Palnnig              | ![](screenshots/screen-11.png) |
 
 
 ---
