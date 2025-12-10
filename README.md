@@ -50,12 +50,13 @@ des plannings et des ressources pédagogiques, avec une gestion des rôles et un
 
 | Fonctionnalité | Capture |
 |---------------|---------|
-| Authentification | ![](screenshots/educonnect-01.png) |
-| Tableau de bord | ![](screenshots/educonnect-02.png) |
-| Gestion des utilisateurs | ![](screenshots/educonnect-03.png) |
-| Gestion des campus | ![](screenshots/educonnect-04.png) |
-| Gestion des salles | ![](screenshots/educonnect-05.png) |
-| Planning | ![](screenshots/educonnect-06.png) |
+| Authentification | ![](screenshots/screen-01.png) |
+| Tableau de bord | ![](screenshots/screen-02.png) |
+| Gestion des utilisateurs | ![](screenshots/screen-04.png) |
+| Gestion des campus | ![](screenshots/screen-05.png) |
+| Gestion des salles | ![](screenshots/screen-07.png) |
+| Planning | ![](screenshots/screen-08.png) |
+
 
 ---
 
