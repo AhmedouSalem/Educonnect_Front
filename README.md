@@ -64,6 +64,10 @@ des plannings et des ressources pédagogiques, avec une gestion des rôles et un
 ## ⚙️ Lancement du projet
 
 ```bash
-git clone https://github.com/ton-compte/educonnect-back.git
+git clone  https://github.com/FamaCoundoul/Educonnect_Back.git
 cd educonnect-back
 mvn spring-boot:run
+```
+```bash
+git clone https://github.com/AhmedouSalem/Educonnect_Front.git
+cd Educonnect_Front
